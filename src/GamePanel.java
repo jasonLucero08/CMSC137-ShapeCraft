@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	static final int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
 	static final int DELAY = 30;
 	char direction = 'R';
-	CircleFaction myCircle = new CircleFaction(SCREEN_WIDTH/8, SCREEN_HEIGHT/2, 100);
+	MainCircle myCircle = new MainCircle(SCREEN_WIDTH/16, SCREEN_HEIGHT/3, 150);
 	SquareFaction mySquare = new SquareFaction(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 100, 100);
 	TriangleFaction myTriangle = new TriangleFaction(new int[]{100, 200, 150}, new int[]{100, 100, 200}, 3);
 	Point p;
@@ -177,7 +177,15 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	   		 RectangularButton button = buttons[i];
 	   		 if (button.isMouseInsideSquare(mouseX, mouseY)) {
 //	   			button.setColor(Color.cyan);
-	   			circles.add(new CircleFaction(500 + rand.nextInt(1000 - 500 + 1),  200 + rand.nextInt(500 - 200 + 1), 100));
+	   			while(true) {
+	   				int randx = 130 + rand.nextInt(400 - 130 + 1);
+	   				int randy = 200 + rand.nextInt(500 - 200 + 1);
+	   				if(!myCircle.isMouseInsideCircle(randx, randy)) {
+	   					circles.add(new CircleFaction(randx, randy, 100));
+	   					break;
+	   				}
+				}
+	   			
 	   	     }
 	   	}	
 		    
@@ -205,9 +213,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	             }
 	    	 }
         }
-		else if (e.getButton() == MouseEvent.BUTTON2) {
-			circles.add(new CircleFaction(e.getX(),  e.getY(), 100));
-        }
+//		else if (e.getButton() == MouseEvent.BUTTON2) {
+//			while(True) {
+//				
+//			}
+//			circles.add(new CircleFaction(e.getX(),  e.getY(), 100));
+//        }
         
 	 }
 
