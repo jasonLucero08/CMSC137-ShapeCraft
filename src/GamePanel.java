@@ -23,8 +23,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	static final int DELAY = 30;
 	char direction = 'R';
 	MainCircle myCircle = new MainCircle(SCREEN_WIDTH/16, SCREEN_HEIGHT/3, 150);
-	SquareFaction mySquare = new SquareFaction(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 100, 100);
-	TriangleFaction myTriangle = new TriangleFaction(new int[]{100, 200, 150}, new int[]{100, 100, 200}, 3);
+//	SquareFaction mySquare = new SquareFaction(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 100, 100);
+	MainSquare mySquare = new MainSquare(800, 570, 130);
+	MainDiamond myDiamond = new MainDiamond(1500, SCREEN_HEIGHT/3, 150);
+//	TriangleFaction myTriangle = new TriangleFaction(new int[]{100, 200, 150}, new int[]{100, 100, 200}, 3);
+	MainTriangle myTriangle = new MainTriangle(850, 120, 200);
 	Point p;
 	int x;
 	int y;
@@ -55,6 +58,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		p = MouseInfo.getPointerInfo().getLocation();
 		myCircle.draw(g);
 		mySquare.draw(g);
+		myDiamond.draw(g);
 		myTriangle.draw(g);
 		 for (int i = 0; i < buttons.length; i++) {
 	   		 RectangularButton button = buttons[i];
