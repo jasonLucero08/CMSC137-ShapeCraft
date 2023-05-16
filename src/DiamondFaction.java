@@ -1,14 +1,12 @@
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-public class TriangleFaction extends Shapes{
-	public TriangleFaction(int x, int y, String size) {
+public class DiamondFaction extends Shapes{
+	public DiamondFaction(int x, int y, String size) {
     	super(x, y, size);
 //        this.image = this.image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-    	Image imageLocation = new ImageIcon("images//TriangleUnit.png").getImage();
+    	Image imageLocation = new ImageIcon("images//DiamondUnit.png").getImage();
     	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
     }
 }

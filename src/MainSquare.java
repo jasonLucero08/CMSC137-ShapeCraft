@@ -9,11 +9,13 @@ public class MainSquare {
     protected int width = 150;
 	protected int height= 150;
 	protected Image image;
+	protected int health;
 	
 
     public MainSquare(int x, int y) {
         this.x = x;
         this.y = y;
+        this.health = 100;
         Image imageLocation = new ImageIcon("images//MainSquare.png").getImage();
     	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
     }
@@ -47,6 +49,17 @@ public class MainSquare {
 //        g.fillRect(x, y, width, height);
 //        g.drawRect(x, y, width, height);
         
+    	g.setColor(Color.RED);
+        int barWidth = width;
+        int barHeight = 10;
+        int barX = x;
+        int barY = y - barHeight - 5;
+        g.fillRect(barX, barY, barWidth, barHeight);
+
+        g.setColor(Color.GREEN);
+        int healthBarWidth = (int) (barWidth * (health / 100.0));
+        g.fillRect(barX, barY, healthBarWidth, barHeight);
+    	
         g.drawImage(this.image, x, y, width, height, null);
     }
 

@@ -58,12 +58,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	}
 	
 	public void draw(Graphics g) {
-		p = MouseInfo.getPointerInfo().getLocation();
-//		test.draw(g);
-		myCircle.draw(g);
-		mySquare.draw(g);
-		myDiamond.draw(g);
-		myTriangle.draw(g);
+//		p = MouseInfo.getPointerInfo().getLocation();
+
 		 for (int i = 0; i < buttons.length; i++) {
 	   		 RectangularButton button = buttons[i];
 	   		 button.draw(g);
@@ -78,6 +74,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		    // Do something with car object
 		    square.draw(g);
 		}
+		myCircle.draw(g);
+		mySquare.draw(g);
+		myDiamond.draw(g);
+		myTriangle.draw(g);
 
 //		
 	}
@@ -170,6 +170,14 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
         	}
         }
+        
+        for (int i = 0; i < squares.size(); i++) {
+        	Shapes shapeOne = squares.get(i);
+        	if(myCircle.intersects(shapeOne)) {
+        		squares.remove(shapeOne);
+        		myCircle.health -= 10;
+        	}
+        }
 		
         for (int i = 0; i < circles.size(); i++) {
         	Shapes shapeOne = circles.get(i);
@@ -179,8 +187,16 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //        		}
         		Shapes shapeTwo = squares.get(j);
         		if (shapeOne.intersects(shapeTwo)) {
-    		    	System.out.println("Intersecting");
-    		    	shapeOne.setDistance(0);
+    		    	if(shapeOne.getHeight() > shapeTwo.getHeight()) {
+    		    		squares.remove(shapeTwo);
+    		    	}
+    		    	else if (shapeOne.getHeight() < shapeTwo.getHeight()){
+    		    		circles.remove(shapeOne);
+    		    	}
+    		    	else {
+    		    		shapeOne.setDistance(0);
+    		    	}
+    		    	
     		    }
     		    else {
     		    	System.out.println("Not intersecting");
@@ -268,73 +284,51 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
             System.out.println("Mouse clicked inside Triangle");
         }
         
-        for (int i = 0; i < circles.size(); i++) {
-		    CircleFaction circle = circles.get(i);
-		    // Do something with car object
-		    if (circle.isMouseInsideShape(mouseX, mouseY) && e.getButton() == MouseEvent.BUTTON1) {
-	        	System.out.println("Mouse clicked inside Circle");
-	            circle.setIsClicked(true);
-	        }
-		    else if (e.getButton() == MouseEvent.BUTTON1 && !(circle.isMouseInsideShape(mouseX, mouseY))) {
-		    	circle.setIsClicked(false);
-	        	System.out.println("circle clicked set to false");
-	        }
-		}
-        
-        for (int i = 0; i < squares.size(); i++) {
-		    SquareFaction square = squares.get(i);
-		    // Do something with car object
-		    if (square.isMouseInsideShape(mouseX, mouseY) && e.getButton() == MouseEvent.BUTTON1) {
-	        	System.out.println("Mouse clicked inside Circle");
-	        	square.setIsClicked(true);
-	        }
-		    else if (e.getButton() == MouseEvent.BUTTON1 && !(square.isMouseInsideShape(mouseX, mouseY))) {
-		    	square.setIsClicked(false);
-	        	System.out.println("circle clicked set to false");
-	        }
-		}
+
         
         button = buttons[0];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 	//  			button.setColor(Color.cyan);
-			while(true) {
-				int randx = 130 + rand.nextInt(400 - 130 + 1);
-				int randy = 200 + rand.nextInt(500 - 200 + 1);
-				if(!myCircle.isMouseInsideMainCircle(randx, randy)) {
-					circles.add(new CircleFaction(randx, randy, "small"));
-					break;
-				}
-			}
+			int randy = rand.nextInt(900);
+			CircleFaction circle = new CircleFaction(150, 360, "small");
+			circles.add(circle);
+			circle.getVector(500, randy);
 			
 	     }
 		
 		button = buttons[1];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
-			while(true) {
-				int randx = 130 + rand.nextInt(400 - 130 + 1);
-				int randy = 200 + rand.nextInt(500 - 200 + 1);
-				if(!myCircle.isMouseInsideMainCircle(randx, randy)) {
-					circles.add(new CircleFaction(randx, randy, "medium"));
-					break;
-				}
-			}
+			int randy = rand.nextInt(900);
+			CircleFaction circle = new CircleFaction(150, 360, "medium");
+			circles.add(circle);
+			circle.getVector(500, randy);
 			
 	    }
 		
 		button = buttons[2];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
-			while(true) {
-				int randx = 130 + rand.nextInt(400 - 130 + 1);
-				int randy = 200 + rand.nextInt(500 - 200 + 1);
-				if(!myCircle.isMouseInsideMainCircle(randx, randy)) {
-					circles.add(new CircleFaction(randx, randy, "large"));
-					break;
-				}
-			}
-			
+			int randy = rand.nextInt(900);
+			CircleFaction circle = new CircleFaction(150, 360, "large");
+			circles.add(circle);
+			circle.getVector(500, randy);
+						
 	     }
+		
+//		button = buttons[2];
+//		if (button.isMouseInsideSquare(mouseX, mouseY)) {
+//			//  			button.setColor(Color.cyan);
+//			while(true) {
+//				int randx = 130 + rand.nextInt(400 - 130 + 1);
+//				int randy = 200 + rand.nextInt(500 - 200 + 1);
+//				if(!myCircle.isMouseInsideMainCircle(randx, randy)) {
+//					circles.add(new CircleFaction(randx, randy, "large"));
+//					break;
+//				}
+//			}
+//			
+//	     }
 		    
     }
 	
@@ -376,10 +370,44 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //	    	 }
         }
 		
-		
 		else if (e.getButton() == MouseEvent.BUTTON2) {
 			squares.add(new SquareFaction(e.getX(),  e.getY(), "small"));
         }
+		
+        for (int i = 0; i < circles.size(); i++) {
+		    CircleFaction circle = circles.get(i);
+		    // Do something with car object
+		    if (circle.isMouseInsideShape(mouseX, mouseY) && e.getButton() == MouseEvent.BUTTON1) {
+//	        	System.out.println("Mouse clicked inside Circle");
+	            circle.setIsClicked(true);
+	            break;
+	        }
+//		    else if (e.getButton() == MouseEvent.BUTTON1 && !circle.isMouseInsideShape(mouseX, mouseY)) {
+//		    	circle.setIsClicked(false);
+////	        	System.out.println("circle clicked set to false");
+//	        }
+		    else {
+		    	circle.setIsClicked(false);
+//	        	System.out.println("circle clicked set to false");
+	        }
+		}
+        
+        for (int i = 0; i < squares.size(); i++) {
+		    SquareFaction square = squares.get(i);
+		    // Do something with car object
+		    if (square.isMouseInsideShape(mouseX, mouseY) && e.getButton() == MouseEvent.BUTTON1) {
+//	        	System.out.println("Mouse clicked inside Circle");
+	        	square.setIsClicked(true);
+	        	break;
+	        }
+		    
+		    else if (e.getButton() == MouseEvent.BUTTON1 && !square.isMouseInsideShape(mouseX, mouseY)) {
+		    	square.setIsClicked(false);
+//	        	System.out.println("circle clicked set to false");
+	        }
+		}
+		
+		
         
 	 }
 

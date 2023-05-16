@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -87,16 +88,20 @@ public class Shapes {
     
 
     public void draw(Graphics g) {
-//        g.setColor(Color.WHITE);
-//        g.fillRect(x, y, width, height);
-        g.drawRect(x, y, width, height);
+//        
+    	if(this.getIsClicked() == true) {
+    	  g.setColor(Color.WHITE);
+//          g.fillRect(x, y, width, height);
+    	  g.drawRect(this.x -4, this.y - 4, this.width + 7, this.height + 7);
+    	}
+        
         
         // Draw the image
-        g.drawImage(this.image, x, y, width, height, null);
+        g.drawImage(this.image, this.x, this.y, this.width, this.height, null);
     }
 
     public boolean isMouseInsideShape(int mouseX, int mouseY) {
-        return (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
+        return (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + this.height);
     }
     
     public void setNewPosition(int x, int y) {
