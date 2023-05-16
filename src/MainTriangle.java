@@ -1,40 +1,29 @@
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
 public class MainTriangle {
-    private int[] xPoints;
-    private int[] yPoints;
-    private int nPoints;
+    private int x;
+    private int y;
     private boolean isClicked;
+    protected int width = 150;
+	protected int height= 150;
+	protected Image image;
+	
 
-    public MainTriangle(int centerX, int centerY, int size) {
-        // Calculate the x and y coordinates for the other two vertices
-        int halfSize = size / 2;
-        int x1 = centerX - halfSize;
-        int y1 = centerY + halfSize;
-        int x2 = centerX + halfSize;
-        int y2 = centerY + halfSize;
-        
-        // Store the coordinates in the xPoints and yPoints arrays
-        this.xPoints = new int[] { centerX, x1, x2 };
-        this.yPoints = new int[] { centerY, y1, y2 };
-        
-        this.nPoints = 3;
+    public MainTriangle(int x, int y) {
+        this.x = x;
+        this.y = y;
+        Image imageLocation = new ImageIcon("images//MainTriangle.png").getImage();
+    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
     }
 
-    public int[] getXPoints() {
-        return xPoints;
+    public int getX() {
+        return x;
     }
 
-    public void setXPoints(int[] xPoints) {
-        this.xPoints = xPoints;
-    }
-
-    public int[] getYPoints() {
-        return yPoints;
-    }
-
-    public void setYPoints(int[] yPoints) {
-        this.yPoints = yPoints;
+    public void setX(int x) {
+        this.x = x;
     }
 
     public void setIsClicked(boolean bool) {
@@ -45,45 +34,35 @@ public class MainTriangle {
         return isClicked;
     }
 
-    public int getNPoints() {
-        return nPoints;
+    public int getY() {
+        return y;
     }
 
-    public void setNPoints(int nPoints) {
-        this.nPoints = nPoints;
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.red);
-        g.fillPolygon(xPoints, yPoints, nPoints);
-        g.drawPolygon(xPoints, yPoints, nPoints);
+//        g.setColor(Color.ORANGE);
+//        g.fillRect(x, y, width, height);
+//        g.drawRect(x, y, width, height);
+        
+        g.drawImage(this.image, x, y, width, height, null);
     }
 
-    public boolean isMouseInsideTriangle(int mouseX, int mouseY) {
-        int x1 = xPoints[0];
-        int y1 = yPoints[0];
-        int x2 = xPoints[1];
-        int y2 = yPoints[1];
-        int x3 = xPoints[2];
-        int y3 = yPoints[2];
-
-        int area = Math.abs((x1*(y2-y3) + x2*(y3-y1)+ x3*(y1-y2))/2);
-        int s = y1*x2 - x1*y2 + x2*mouseY - y2*mouseX + mouseX*y1 - mouseY*x1;
-        int t = y2*x3 - x2*y3 + x3*mouseY - y3*mouseX + mouseX*y2 - mouseY*x2;
-        int u = y3*x1 - x3*y1 + x1*mouseY - y1*mouseX + mouseX*y3 - mouseY*x3;
-
-        return (s >= 0 && t >= 0 && u >= 0) || (s <= 0 && t <= 0 && u <= 0);
+    public boolean isMouseInsideMainTriangle(int mouseX, int mouseY) {
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 
-    public void setNewPosition(int[] xPoints, int[] yPoints) {
-        // This method is not needed for a main triangle that cannot move
+    public void setNewPosition(int x, int y) {
+        // This method is not needed for a main square that cannot move
     }
 
     public void getVector(double newXPos, double newYPos) {
-        // This method is not needed for a main triangle that cannot move
+        // This method is not needed for a main square that cannot move
     }
 
     public void move() {
-        // This method is not needed for a main triangle that cannot move
+        // This method is not needed for a main square that cannot move
     }
 }

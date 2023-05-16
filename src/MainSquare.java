@@ -1,15 +1,21 @@
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
 public class MainSquare {
     private int x;
     private int y;
-    private int sideLength;
     private boolean isClicked;
+    protected int width = 150;
+	protected int height= 150;
+	protected Image image;
+	
 
-    public MainSquare(int x, int y, int sideLength) {
+    public MainSquare(int x, int y) {
         this.x = x;
         this.y = y;
-        this.sideLength = sideLength;
+        Image imageLocation = new ImageIcon("images//MainSquare.png").getImage();
+    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
     }
 
     public int getX() {
@@ -36,22 +42,16 @@ public class MainSquare {
         this.y = y;
     }
 
-    public int getSideLength() {
-        return sideLength;
-    }
-
-    public void setSideLength(int sideLength) {
-        this.sideLength = sideLength;
-    }
-
     public void draw(Graphics g) {
-        g.setColor(Color.ORANGE);
-        g.fillRect(x, y, sideLength, sideLength);
-        g.drawRect(x, y, sideLength, sideLength);
+//        g.setColor(Color.ORANGE);
+//        g.fillRect(x, y, width, height);
+//        g.drawRect(x, y, width, height);
+        
+        g.drawImage(this.image, x, y, width, height, null);
     }
 
-    public boolean isMouseInsideSquare(int mouseX, int mouseY) {
-        return mouseX >= x && mouseX <= x + sideLength && mouseY >= y && mouseY <= y + sideLength;
+    public boolean isMouseInsideMainSquare(int mouseX, int mouseY) {
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 
     public void setNewPosition(int x, int y) {

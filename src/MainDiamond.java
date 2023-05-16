@@ -1,15 +1,21 @@
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
 public class MainDiamond {
     private int x;
     private int y;
-    private int size;
     private boolean isClicked;
+    protected int width = 150;
+	protected int height= 150;
+	protected Image image;
+	
 
-    public MainDiamond(int x, int y, int size) {
+    public MainDiamond(int x, int y) {
         this.x = x;
         this.y = y;
-        this.size = size;
+        Image imageLocation = new ImageIcon("images//MainDiamond.png").getImage();
+    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
     }
 
     public int getX() {
@@ -36,38 +42,27 @@ public class MainDiamond {
         this.y = y;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
     public void draw(Graphics g) {
-        g.setColor(Color.green);
-        int[] xPoints = { x + size/2, x + size, x + size/2, x };
-        int[] yPoints = { y, y + size/2, y + size, y + size/2 };
-        g.fillPolygon(xPoints, yPoints, 4);
-        g.setColor(Color.black);
-        g.drawPolygon(xPoints, yPoints, 4);
+//        g.setColor(Color.ORANGE);
+//        g.fillRect(x, y, width, height);
+//        g.drawRect(x, y, width, height);
+        
+        g.drawImage(this.image, x, y, width, height, null);
     }
 
-    public boolean isMouseInsideDiamond(int mouseX, int mouseY) {
-        int dx = Math.abs(mouseX - (x + size / 2));
-        int dy = Math.abs(mouseY - (y + size / 2));
-        return dx + dy <= size / 2;
+    public boolean isMouseInsideMainDiamond(int mouseX, int mouseY) {
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
-    
+
     public void setNewPosition(int x, int y) {
-        // This method is not needed for a main diamond that cannot move
+        // This method is not needed for a main square that cannot move
     }
 
     public void getVector(double newXPos, double newYPos) {
-        // This method is not needed for a main diamond that cannot move
+        // This method is not needed for a main square that cannot move
     }
 
     public void move() {
-        // This method is not needed for a main diamond that cannot move
+        // This method is not needed for a main square that cannot move
     }
 }

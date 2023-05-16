@@ -77,7 +77,7 @@ public class RectangularButton extends JPanel {
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillRect(x, y, width, height);
-        g.setColor(Color.BLACK);
+//        g.setColor(Color.BLACK);
         g.drawRect(x, y, width, height);
     }
 

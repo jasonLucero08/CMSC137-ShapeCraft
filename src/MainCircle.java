@@ -1,15 +1,21 @@
 import java.awt.*;
 
+import javax.swing.ImageIcon;
+
 public class MainCircle {
     private int x;
     private int y;
-    private int radius;
     private boolean isClicked;
+    protected int width = 150;
+	protected int height= 150;
+	protected Image image;
+	
 
-    public MainCircle(int x, int y, int radius) {
+    public MainCircle(int x, int y) {
         this.x = x;
         this.y = y;
-        this.radius = radius;
+        Image imageLocation = new ImageIcon("images//MainCircle.png").getImage();
+    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
     }
 
     public int getX() {
@@ -36,37 +42,27 @@ public class MainCircle {
         this.y = y;
     }
 
-    public int getRadius() {
-        return radius;
-    }
-
-    public void setRadius(int radius) {
-        this.radius = radius;
-    }
-
     public void draw(Graphics g) {
-        g.setColor(Color.cyan);
-        g.fillOval(x, y, radius, radius);
-        g.drawOval(x, y, radius, radius);
+//        g.setColor(Color.ORANGE);
+//        g.fillRect(x, y, width, height);
+//        g.drawRect(x, y, width, height);
+        
+        g.drawImage(this.image, x, y, width, height, null);
     }
 
-    public boolean isMouseInsideCircle(int mouseX, int mouseY) {
-        int distanceX = mouseX - (x + radius / 2);
-        int distanceY = mouseY - (y + radius / 2);
-        double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-        return distance <= radius / 2;
+    public boolean isMouseInsideMainCircle(int mouseX, int mouseY) {
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
-    
+
     public void setNewPosition(int x, int y) {
-        // This method is not needed for a main circle that cannot move
+        // This method is not needed for a main square that cannot move
     }
 
     public void getVector(double newXPos, double newYPos) {
-        // This method is not needed for a main circle that cannot move
+        // This method is not needed for a main square that cannot move
     }
 
     public void move() {
-        // This method is not needed for a main circle that cannot move
+        // This method is not needed for a main square that cannot move
     }
 }
