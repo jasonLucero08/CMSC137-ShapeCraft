@@ -39,14 +39,14 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	RectangularButton[] buttons = {
 			new RectangularButton(30, 878, 110, 80),
 			new RectangularButton(170, 878, 110, 80),
-			new RectangularButton(310, 878, 110, 80)	
+			new RectangularButton(310, 878, 110, 80)
 	};
 	Random rand = new Random();
 	RectangularButton button;
-	
+
 
 	GamePanel(){
-		
+
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		this.setBackground(Color.white);
 		this.setFocusable(true);
@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		timer = new Timer(DELAY, this);
 		timer.start();
 	}
-	
+
 	public void draw(Graphics g) {
 		p = MouseInfo.getPointerInfo().getLocation();
 //		test.draw(g);
@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		 for (int i = 0; i < buttons.length; i++) {
 	   		 RectangularButton button = buttons[i];
 	   		 button.draw(g);
-	   	}	
+	   	}
 		for (int i = 0; i < circles.size(); i++) {
 		    CircleFaction circle = circles.get(i);
 		    // Do something with car object
@@ -79,21 +79,21 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		    square.draw(g);
 		}
 
-//		
+//
 	}
-	
+
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(newImage, 0, 0, null);
         draw(g);
     }
-	
+
 	public class MyKeyAdapter extends KeyAdapter{
 		// TODO Auto-generated method stub
-		
+
 		public void keyPressed(KeyEvent e) {
-			
+
 			switch(e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 				if(direction!='R') {
@@ -120,10 +120,9 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 				}
 				break;
 			}
-			
+
 		}
 	}
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 //			System.out.println("You must move!");
@@ -135,13 +134,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		    // Do something with car object
 		    circle.move();
 		}
-		
+
 		for (int i = 0; i < squares.size(); i++) {
 		    SquareFaction square = squares.get(i);
 		    // Do something with car object
 		    square.move();
 		}
-//		
+//
 //        for (int i = 0; i < squares.size(); i++) {
 //		    SquareFaction square = squares.get(i);
 //		    if (mySquare.intersects(square)) {
@@ -150,7 +149,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //		    }
 //		    else {
 //		    	System.out.println("Not intersecting");
-//		    	
+//
 //		    }
 //        }
         for (int i = 0; i < squares.size(); i++) {
@@ -166,11 +165,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
     		    else {
     		    	System.out.println("Not intersecting");
-    		    	
+
     		    }
         	}
         }
-		
+
         for (int i = 0; i < circles.size(); i++) {
         	Shapes shapeOne = circles.get(i);
         	for (int j = 0; j < squares.size(); j++) {
@@ -184,11 +183,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
     		    else {
     		    	System.out.println("Not intersecting");
-    		    	
+
     		    }
         	}
         }
-        
+
         for (int i = 0; i < squares.size(); i++) {
         	Shapes shapeOne = squares.get(i);
         	for (int j = 0; j < circles.size(); j++) {
@@ -202,13 +201,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
     		    else {
     		    	System.out.println("Not intersecting");
-    		    	
+
     		    }
         	}
         }
-        
-        
-        
+
+
+
         for (int i = 0; i < circles.size(); i++) {
         	Shapes shapeOne = circles.get(i);
         	for (int j = 0; j < circles.size(); j++) {
@@ -222,19 +221,18 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
     		    else {
     		    	System.out.println("Not intersecting");
-    		    	
+
     		    }
         	}
         }
-    
+
 
 
 		repaint();
-		
+
 	}
-	
-	@Override
-    public void mouseClicked(MouseEvent e) {
+
+	public void mouseClicked(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
 
@@ -242,32 +240,32 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         	System.out.println("Mouse clicked inside Circle");
             myCircle.setIsClicked(true);
         }
-        
+
 //        if (test.isMouseInsideCircle(mouseX, mouseY)){
 //        	test.setIsClicked(true);
 //        }
-        
+
         else if (e.getButton() == MouseEvent.BUTTON1 && !(myCircle.isMouseInsideMainCircle(mouseX, mouseY))) {
         	myCircle.setIsClicked(false);
         	System.out.println("circle clicked set to false");
         }
-        
-        
+
+
         if (mySquare.isMouseInsideMainSquare(mouseX, mouseY)&& e.getButton() == MouseEvent.BUTTON1) {
             System.out.println("Mouse clicked inside Square");
             mySquare.setIsClicked(true);
         }
-        
+
         else if (e.getButton() == MouseEvent.BUTTON1 && !(mySquare.isMouseInsideMainSquare(mouseX, mouseY))) {
         	mySquare.setIsClicked(false);
         	System.out.println("square clicked set to false");
         }
 
-        
+
         if (myTriangle.isMouseInsideMainTriangle(mouseX, mouseY)) {
             System.out.println("Mouse clicked inside Triangle");
         }
-        
+
         for (int i = 0; i < circles.size(); i++) {
 		    CircleFaction circle = circles.get(i);
 		    // Do something with car object
@@ -280,7 +278,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	        	System.out.println("circle clicked set to false");
 	        }
 		}
-        
+
         for (int i = 0; i < squares.size(); i++) {
 		    SquareFaction square = squares.get(i);
 		    // Do something with car object
@@ -293,7 +291,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	        	System.out.println("circle clicked set to false");
 	        }
 		}
-        
+
         button = buttons[0];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 	//  			button.setColor(Color.cyan);
@@ -305,9 +303,9 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 					break;
 				}
 			}
-			
+
 	     }
-		
+
 		button = buttons[1];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
@@ -319,9 +317,9 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 					break;
 				}
 			}
-			
+
 	    }
-		
+
 		button = buttons[2];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
@@ -333,16 +331,15 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 					break;
 				}
 			}
-			
+
 	     }
-		    
+
     }
-	
-	 @Override
-    public void mousePressed(MouseEvent e) {
+
+	 public void mousePressed(MouseEvent e) {
 		int mouseX = e.getX();
         int mouseY = e.getY();
-        
+
 		if (e.getButton() == MouseEvent.BUTTON3) {
         	if (myCircle.getIsClicked()) {
         		myCircle.getVector(mouseX, mouseY);
@@ -359,7 +356,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	    			 circle.setNewPosition(mouseX, mouseY);
 	             }
 	    	 }
-	    	 
+
 	    	 for (int i = 0; i < squares.size(); i++) {
 	    		 SquareFaction square = squares.get(i);
 	    		 if (square.getIsClicked()) {
@@ -367,45 +364,40 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	    			 square.setNewPosition(mouseX, mouseY);
 	             }
 	    	 }
-	    	 
+
 //	    	 if (test.getIsClicked()) {
 //	    		 System.out.println(mouseX + ", " + mouseY);
-//	    		 
+//
 //	    		 test.getVector(mouseX, mouseY);
 //	    		 test.setNewPosition(mouseX, mouseY);
 //	    	 }
         }
-		
-		
+
+
 		else if (e.getButton() == MouseEvent.BUTTON2) {
 			squares.add(new SquareFaction(e.getX(),  e.getY(), "small"));
         }
-        
+
 	 }
 
-    @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
-    @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-    
 
-    @Override
     public void mouseExited(MouseEvent e) {
 
     }
 
-	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	@Override
+
 	public void mouseMoved(MouseEvent e) {
 		int mouseX = e.getX();
         int mouseY = e.getY();
@@ -417,9 +409,9 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	   		 else {
 	   			button.setColor(new Color(255, 255, 255, 0));
 	   		 }
-	   	}	
+	   	}
 	}
-	
 
-	
+
+
 }
