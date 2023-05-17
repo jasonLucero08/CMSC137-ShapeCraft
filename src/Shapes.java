@@ -15,6 +15,8 @@ public class Shapes {
 	protected double dy;
 	protected double distance;
 	protected double speed;
+	protected String size;
+	protected String direction;
 	protected Image image;
 
     
@@ -36,10 +38,14 @@ public class Shapes {
             this.height = 80;
             this.speed = 2;
         }
-        
+        this.size = size;
         this.isClicked = false;
         this.isMoving = false;
 
+    }
+    
+    public String getSize() {
+    	return this.size;
     }
     
     public int getX() {
@@ -151,6 +157,26 @@ public class Shapes {
         } else {
             this.isMoving = false;
         }
+    }
+    
+    public void getQuadrant(double newXPos, double newYPos) {
+    	if(newXPos > this.x && newYPos < this.y) {
+    		System.out.println("First Quadrant");
+    		this.direction = "First Quadrant" ;
+    	}
+    	else if (newXPos < this.x && newYPos < this.y){
+    		this.direction = "Second Quadrant" ;
+    	}
+    	else if (newXPos < this.x && newYPos > this.y){
+    		this.direction = "Third Quadrant" ;
+    	}
+    	else if (newXPos > this.x && newYPos > this.y){
+    		this.direction = "Fourth Quadrant" ;
+    	}
+    }
+    
+    public String getDirection() {
+    	return this.direction;
     }
 
     public boolean getIsMoving() {

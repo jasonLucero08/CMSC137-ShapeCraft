@@ -161,11 +161,20 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         		}
         		SquareFaction shapeTwo = squares.get(j);
         		if (shapeOne.intersects(shapeTwo)) {
-    		    	System.out.println("Intersecting");
-    		    	shapeOne.setDistance(0);
+//    		    	System.out.println("Intersecting");
+        			if(shapeTwo.getDirection() == "First Quadrant" || shapeTwo.getDirection() == "Fourth Quadrant") {
+        				System.out.println("Collision will happen go back!");
+        				shapeTwo.getVector(shapeTwo.getX() - 10, shapeTwo.getY());
+        			}
+        			else if(shapeTwo.getDirection() == "Second Quadrant" || shapeTwo.getDirection() == "Third Quadrant") {
+        				System.out.println("Collision will happen go back!");
+        				shapeTwo.getVector(shapeTwo.getX() + 10, shapeTwo.getY());
+        			}
+        			
+//    		    	shapeOne.setDistance(0);
     		    }
     		    else {
-    		    	System.out.println("Not intersecting");
+//    		    	System.out.println("Not intersecting");
     		    	
     		    }
         	}
@@ -199,7 +208,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    	
     		    }
     		    else {
-    		    	System.out.println("Not intersecting");
+//    		    	System.out.println("Not intersecting");
     		    	
     		    }
         	}
@@ -213,11 +222,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //        		}
         		Shapes shapeTwo = circles.get(j);
         		if (shapeOne.intersects(shapeTwo)) {
-    		    	System.out.println("Intersecting");
+//    		    	System.out.println("Intersecting");
     		    	shapeOne.setDistance(0);
     		    }
     		    else {
-    		    	System.out.println("Not intersecting");
+//    		    	System.out.println("Not intersecting");
     		    	
     		    }
         	}
@@ -226,6 +235,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         
         
         for (int i = 0; i < circles.size(); i++) {
+        	Random random = new Random();
         	Shapes shapeOne = circles.get(i);
         	for (int j = 0; j < circles.size(); j++) {
         		if (i == j) {
@@ -233,11 +243,61 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         		}
         		Shapes shapeTwo = circles.get(j);
         		if (shapeOne.intersects(shapeTwo)) {
-    		    	System.out.println("Intersecting");
-    		    	shapeOne.setDistance(0);
+//    		    	System.out.println("Intersecting");
+        			System.out.println("Collision will happen go back!");
+        			if(shapeTwo.getDirection() == "First Quadrant") {
+        				
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+        				
+        			}
+
+        			else if(shapeTwo.getDirection() == "Second Quadrant") {
+        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Third Quadrant") {
+        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Fourth Quadrant") {
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+//    		    	shapeOne.setDistance(0);
     		    }
     		    else {
-    		    	System.out.println("Not intersecting");
+//    		    	System.out.println("Not intersecting");
     		    	
     		    }
         	}
@@ -341,6 +401,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         	if (myCircle.getIsClicked()) {
         		myCircle.getVector(mouseX, mouseY);
             	myCircle.setNewPosition(mouseX, mouseY);
+            	
             }
         	if (mySquare.getIsClicked()){
         		mySquare.getVector(mouseX, mouseY);
@@ -351,6 +412,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	    		 if (circle.getIsClicked()) {
 	    			 circle.getVector(mouseX, mouseY);
 	    			 circle.setNewPosition(mouseX, mouseY);
+	    			 circle.getQuadrant(mouseX, mouseY);
 	             }
 	    	 }
 	    	 
@@ -359,6 +421,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	    		 if (square.getIsClicked()) {
 	    			 square.getVector(mouseX, mouseY);
 	    			 square.setNewPosition(mouseX, mouseY);
+	    			 square.getQuadrant(mouseX, mouseY);
 	             }
 	    	 }
 	    	 
