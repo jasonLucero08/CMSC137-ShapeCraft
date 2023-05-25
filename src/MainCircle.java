@@ -6,18 +6,18 @@ public class MainCircle {
     private int x;
     private int y;
     private boolean isClicked;
-    protected int width = 150;
-	protected int height= 150;
+    protected int width = 110;
+	protected int height= 110;
 	protected Image image;
 	protected int health;
-	
+
 
     public MainCircle(int x, int y) {
         this.x = x;
         this.y = y;
         this.health = 100;
         Image imageLocation = new ImageIcon("images//MainCircle.png").getImage();
-    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    	this.image = imageLocation.getScaledInstance(110, 110, Image.SCALE_SMOOTH);
     }
 
     public int getX() {
@@ -43,7 +43,7 @@ public class MainCircle {
     public void setY(int y) {
         this.y = y;
     }
-    
+
     public boolean intersects(Shapes shape) {
         int thisLeft = this.x;
         int thisRight = this.x + this.width;
@@ -58,7 +58,7 @@ public class MainCircle {
         return thisLeft < otherRight && thisRight > otherLeft &&
                thisTop < otherBottom && thisBottom > otherTop;
     }
-    
+
     public void draw(Graphics g) {
 //        g.setColor(Color.ORANGE);
 //        g.fillRect(x, y, width, height);
@@ -73,7 +73,7 @@ public class MainCircle {
         g.setColor(Color.GREEN);
         int healthBarWidth = (int) (barWidth * (health / 100.0));
         g.fillRect(barX, barY, healthBarWidth, barHeight);
-        
+
         g.drawImage(this.image, x, y, width, height, null);
     }
 

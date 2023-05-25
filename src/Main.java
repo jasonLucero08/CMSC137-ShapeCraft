@@ -1,0 +1,17 @@
+//import javafx.application.Application;
+//import javafx.stage.Stage;
+//import GameFrame;
+//
+//public class Main extends Application {
+//
+//	public static void main(String[] args) {
+//		launch(args);
+//
+//	}
+//
+//	public void start(Stage stage){
+//		GameFrame theGameStage = new GameFrame();
+//		GameFrame.setStage(stage);
+//	}
+//
+//}

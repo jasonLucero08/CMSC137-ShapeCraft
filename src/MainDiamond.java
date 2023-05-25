@@ -6,16 +6,16 @@ public class MainDiamond {
     private int x;
     private int y;
     private boolean isClicked;
-    protected int width = 150;
-	protected int height= 150;
+    protected int width = 110;
+	protected int height= 110;
 	protected Image image;
-	
+
 
     public MainDiamond(int x, int y) {
         this.x = x;
         this.y = y;
         Image imageLocation = new ImageIcon("images//MainDiamond.png").getImage();
-    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    	this.image = imageLocation.getScaledInstance(110, 110, Image.SCALE_SMOOTH);
     }
 
     public int getX() {
@@ -46,7 +46,7 @@ public class MainDiamond {
 //        g.setColor(Color.ORANGE);
 //        g.fillRect(x, y, width, height);
 //        g.drawRect(x, y, width, height);
-        
+
         g.drawImage(this.image, x, y, width, height, null);
     }
 
