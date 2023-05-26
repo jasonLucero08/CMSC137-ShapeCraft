@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 
 
 public class GamePanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
-	Image image = Toolkit.getDefaultToolkit().getImage("images//2.png");
-	Image newImage = image.getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
+	Image menuBackground = Toolkit.getDefaultToolkit().getImage("images//1.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
+	Image playBackground = Toolkit.getDefaultToolkit().getImage("images//2.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
+	Image singlePlayerButton = Toolkit.getDefaultToolkit().getImage("images//SingleplayerButton.png").getScaledInstance(70, 50, Image.SCALE_SMOOTH);
+	Image multiPlayerButton = Toolkit.getDefaultToolkit().getImage("images//MultiplayerButton.png").getScaledInstance(70, 50, Image.SCALE_SMOOTH);
 	static final int SCREEN_WIDTH = 1360;
 	static final int SCREEN_HEIGHT = 960;
 	static final int UNIT_SIZE = 25;
@@ -36,6 +38,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	List<CircleFaction> circles = new ArrayList<CircleFaction>();
 	List<SquareFaction> squares = new ArrayList<SquareFaction>();
 //	CircleFaction test = new CircleFaction(0, 0, "small");
+	RectangularButton[] menuButtons = {
+			new RectangularButton(163, 443, 287, 75),
+			new RectangularButton(163, 685, 287, 75),
+	};
 	RectangularButton[] buttons = {
 			new RectangularButton(22, 842, 82, 80),
 			new RectangularButton(125, 842, 82, 80),
@@ -43,6 +49,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	};
 	Random rand = new Random();
 	RectangularButton button;
+
+	// Game States
+	public final int menuState = 1;
+	public final int playState = 2;
+	public int gameState = menuState;
 
 
 	GamePanel(){
@@ -58,35 +69,47 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	}
 
 	public void draw(Graphics g) {
-//		p = MouseInfo.getPointerInfo().getLocation();
+		if (gameState == menuState) {
+			for (int i = 0; i < menuButtons.length; i++) {
+				RectangularButton button = menuButtons[i];
+		   		button.draw(g);
+			}
+		} else {
+//			p = MouseInfo.getPointerInfo().getLocation();
 
-		 for (int i = 0; i < buttons.length; i++) {
-	   		 RectangularButton button = buttons[i];
-	   		 button.draw(g);
-	   	}
-		for (int i = 0; i < circles.size(); i++) {
-		    CircleFaction circle = circles.get(i);
-		    // Do something with car object
-		    circle.draw(g);
+			for (int i = 0; i < buttons.length; i++) {
+		   		 RectangularButton button = buttons[i];
+		   		 button.draw(g);
+		   	}
+			for (int i = 0; i < circles.size(); i++) {
+			    CircleFaction circle = circles.get(i);
+			    // Do something with car object
+			    circle.draw(g);
+			}
+			for (int i = 0; i < squares.size(); i++) {
+			    SquareFaction square = squares.get(i);
+			    // Do something with car object
+			    square.draw(g);
+			}
+			myCircle.draw(g);
+			mySquare.draw(g);
+			myDiamond.draw(g);
+			myTriangle.draw(g);
 		}
-		for (int i = 0; i < squares.size(); i++) {
-		    SquareFaction square = squares.get(i);
-		    // Do something with car object
-		    square.draw(g);
-		}
-		myCircle.draw(g);
-		mySquare.draw(g);
-		myDiamond.draw(g);
-		myTriangle.draw(g);
-
 //
 	}
 
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(newImage, 0, 0, null);
-        draw(g);
+        if (gameState == menuState) {
+        	g.drawImage(menuBackground, 0, 0, null);
+            draw(g);
+        }
+        else {
+        	g.drawImage(playBackground, 0, 0, null);
+            draw(g);
+        }
     }
 
 	public class MyKeyAdapter extends KeyAdapter{
@@ -345,6 +368,15 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         }
 
 
+        button = menuButtons[0];
+        if (button.isMouseInsideSquare(mouseX, mouseY)) {
+        	gameState = playState;
+	    }
+
+        button = menuButtons[1];
+        if (button.isMouseInsideSquare(mouseX, mouseY)) {
+        	gameState = playState;
+	    }
 
         button = buttons[0];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
@@ -500,15 +532,28 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	public void mouseMoved(MouseEvent e) {
 		int mouseX = e.getX();
         int mouseY = e.getY();
-        for (int i = 0; i < buttons.length; i++) {
-	   		 RectangularButton button = buttons[i];
-	   		 if (button.isMouseInsideSquare(mouseX, mouseY)) {
-	   			button.setColor(new Color(128, 128, 128, 128));
-	         }
-	   		 else {
-	   			button.setColor(new Color(255, 255, 255, 0));
-	   		 }
-	   	}
+        if (gameState == menuState) {
+        	for (int i = 0; i < menuButtons.length; i++) {
+	   	   		 RectangularButton button = menuButtons[i];
+	   	   		 if (button.isMouseInsideSquare(mouseX, mouseY)) {
+	   	   			button.setColor(new Color(128, 128, 128, 128));
+	   	         }
+	   	   		 else {
+	   	   			button.setColor(new Color(255, 255, 255, 0));
+	   	   		 }
+        	}
+
+        } else {
+        	for (int i = 0; i < buttons.length; i++) {
+	   	   		 RectangularButton button = buttons[i];
+	   	   		 if (button.isMouseInsideSquare(mouseX, mouseY)) {
+	   	   			button.setColor(new Color(128, 128, 128, 128));
+	   	         }
+	   	   		 else {
+	   	   			button.setColor(new Color(255, 255, 255, 0));
+	   	   		 }
+   	   		}
+        }
 	}
 
 
