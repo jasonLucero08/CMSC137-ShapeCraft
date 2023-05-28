@@ -6,18 +6,18 @@ public class MainSquare {
     private int x;
     private int y;
     private boolean isClicked;
-    protected int width = 150;
-	protected int height= 150;
+    protected int width = 110;
+	protected int height= 110;
 	protected Image image;
 	protected int health;
-	
+
 
     public MainSquare(int x, int y) {
         this.x = x;
         this.y = y;
         this.health = 100;
         Image imageLocation = new ImageIcon("images//MainSquare.png").getImage();
-    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    	this.image = imageLocation.getScaledInstance(110, 110, Image.SCALE_SMOOTH);
     }
 
     public int getX() {
@@ -48,7 +48,7 @@ public class MainSquare {
 //        g.setColor(Color.ORANGE);
 //        g.fillRect(x, y, width, height);
 //        g.drawRect(x, y, width, height);
-        
+
     	g.setColor(Color.RED);
         int barWidth = width;
         int barHeight = 10;
@@ -59,7 +59,7 @@ public class MainSquare {
         g.setColor(Color.GREEN);
         int healthBarWidth = (int) (barWidth * (health / 100.0));
         g.fillRect(barX, barY, healthBarWidth, barHeight);
-    	
+
         g.drawImage(this.image, x, y, width, height, null);
     }
 

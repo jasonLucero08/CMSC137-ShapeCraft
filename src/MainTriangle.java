@@ -6,16 +6,16 @@ public class MainTriangle {
     private int x;
     private int y;
     private boolean isClicked;
-    protected int width = 150;
-	protected int height= 150;
+    protected int width = 110;
+	protected int height= 110;
 	protected Image image;
-	
+
 
     public MainTriangle(int x, int y) {
         this.x = x;
         this.y = y;
         Image imageLocation = new ImageIcon("images//MainTriangle.png").getImage();
-    	this.image = imageLocation.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+    	this.image = imageLocation.getScaledInstance(110, 110, Image.SCALE_SMOOTH);
     }
 
     public int getX() {
@@ -46,7 +46,7 @@ public class MainTriangle {
 //        g.setColor(Color.ORANGE);
 //        g.fillRect(x, y, width, height);
 //        g.drawRect(x, y, width, height);
-        
+
         g.drawImage(this.image, x, y, width, height, null);
     }
 
