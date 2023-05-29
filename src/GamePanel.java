@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
 
-
 public class GamePanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
 	Image image = Toolkit.getDefaultToolkit().getImage("images//2.png");
 	Image newImage = image.getScaledInstance(1850, 1000, Image.SCALE_SMOOTH);
