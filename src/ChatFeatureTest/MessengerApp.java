@@ -56,7 +56,7 @@ public class MessengerApp extends Application {
         primaryStage.show();
 
         // Run the server in a background task
-        Task<Void> serverTask = new Task<>() {
+        Task<Void> serverTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 runServer();
