@@ -8,6 +8,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+
 
 import javax.swing.JOptionPane;
 
@@ -26,6 +29,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class ClientStart {
+	
+	private Shape receivedShape;
 	
 	Image playBackground = new Image("file:images/2.png", 1360, 960, true, true);
 	
@@ -49,13 +54,14 @@ public class ClientStart {
     }
     
     public class Client {
-    	
+    	private boolean running;
     	private Socket socket;
     	private BufferedReader bufferedReader;
     	private BufferedWriter bufferedWriter;
     	private String username;
-    
+
 	    public Client(Socket socket, String username) {
+	    	running = true;
 			try {
 				this.socket = socket;
 				this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -73,8 +79,8 @@ public class ClientStart {
 				bufferedWriter.flush();
 				Scanner scanner = new Scanner(System.in);
 				while (socket.isConnected()) {
-					
 					sendButton.setOnAction(event -> sendMessage(inputArea, chatArea));
+
 					
 				}
 			} catch (IOException e) {
@@ -88,6 +94,7 @@ public class ClientStart {
 				public void run() {
 					String msgFromGroupChat;
 					while (socket.isConnected()) {
+						startReceivingUpdates();
 						try {
 							msgFromGroupChat = bufferedReader.readLine();
 //							System.out.println(msgFromGroupChat);
@@ -115,7 +122,7 @@ public class ClientStart {
 				e.printStackTrace();
 			}
 		}
-		
+
 		private void sendMessage(TextArea inputArea, TextArea chatArea) {
 	    	Platform.runLater(() -> {
 	            String message = inputArea.getText();
@@ -127,7 +134,7 @@ public class ClientStart {
 		            inputArea.clear();
 	            }
 	            catch (IOException e) {
-					closeEverything(socket, bufferedReader, bufferedWriter);
+					closeEverything(this.socket, bufferedReader, bufferedWriter);
 				}
 	    	});
 
@@ -138,6 +145,24 @@ public class ClientStart {
 	            chatArea.appendText(Text + "\n");
 	    	});
 
+	    }
+		
+		private void startReceivingUpdates() {
+	        try {
+	            ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
+	            Shape receivedShape;
+	            System.out.println("THIS RAN");
+	            while (this.socket.isConnected()) {
+	            	
+	                // Receive the serialized Shape object from the server
+	                receivedShape = (Shape) objectInputStream.readObject();
+
+	                // Process the received Shape object as needed
+	                System.out.println("Received Shape: x = " + receivedShape.getX() + ", y = " + receivedShape.getY());
+	            }
+	        } catch (IOException | ClassNotFoundException e) {
+	            e.printStackTrace();
+	        }
 	    }
     }
     
@@ -151,6 +176,7 @@ public class ClientStart {
             Client client = new Client(socket, username);
             client.listenForMessage();
             client.sendMessage();
+            
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -198,6 +224,7 @@ public class ClientStart {
         // This can cause blocking and unresponsive behavior.
         
         socketThread.start();
+        
         
     	
     }

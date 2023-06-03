@@ -1,14 +1,22 @@
 package ChatFeatureWithGui;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
 	private ServerSocket serverSocket;
-
+	private Shape shape;
+    private boolean running;
+	
 	public Server(ServerSocket serverSocket) {
 		this.serverSocket = serverSocket;
+		this.shape = new Shape(); // Create a new Shape object with desired x and y values
+		this.shape.setX(10);
+		this.running = true;
+		this.shape.setY(20);
+		
 	}
 
 	public void startServer() {
@@ -18,11 +26,16 @@ public class Server {
 			while (!serverSocket.isClosed()) {
 
 				Socket socket = serverSocket.accept();
-				System.out.println("A new client has connected!");
-				ClientHandler clientHandler = new ClientHandler(socket);
-
-				Thread thread = new Thread(clientHandler);
-				thread.start();
+				if(socket != null) {
+					System.out.println("A new client has connected!");
+					ClientHandler clientHandler = new ClientHandler(socket);
+					
+					Thread thread = new Thread(clientHandler);
+					thread.start();
+					startSendingUpdates(socket);
+					
+				}
+				
 
 			}
 
@@ -30,6 +43,31 @@ public class Server {
 
 		}
 	}
+	
+	 public void startSendingUpdates(Socket socket) {
+		 Thread sendingThread = new Thread(() -> {
+	        try {
+	            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+	            while (running) {
+	                // Send the serialized Shape object to the client
+	                shape.setX(shape.getX() + 1);
+	                shape.setY(shape.getY() + 1);
+	                System.out.println(shape.x + " " + shape.y);
+	                objectOutputStream.writeObject(shape);
+	                objectOutputStream.flush();
+
+	                // Delay between updates (adjust as needed)
+	                Thread.sleep(1000);
+	            }
+	        } catch (IOException | InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    });
+		sendingThread.start();
+    }
+	 
+	
 
 	public void closeServerSocket() {
 		try {
