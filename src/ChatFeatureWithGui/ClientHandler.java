@@ -1,4 +1,4 @@
-package ChatFeatureTest2;
+package ChatFeatureWithGui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
