@@ -151,7 +151,7 @@ public class Shapes {
     }
 
     public void move() {
-        if (this.distance > 0) {
+        if (this.distance > 0 && this.x > 70 && this.x < 1270 && this.y > 70 && this.y < 680) {
             this.x += this.dx;
             this.y += this.dy;
             this.distance -= this.speed;
