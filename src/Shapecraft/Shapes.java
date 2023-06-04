@@ -150,8 +150,30 @@ public class Shapes {
         this.isMoving = true;
     }
 
+//    public void move() {
+//        if (this.distance > 0 && this.x > 70 && this.x < 1270 && this.y > 70 && this.y < 680) {
+//            this.x += this.dx;
+//            this.y += this.dy;
+//            this.distance -= this.speed;
+//           
+//        } else {
+//            this.isMoving = false;
+//        }
+//    }
     public void move() {
-        if (this.distance > 0 && this.x > 70 && this.x < 1270 && this.y > 70 && this.y < 680) {
+        if (this.distance > 0) {
+            // Check if the object hits the walls
+            if (this.x <= 70)
+                this.dx += 1; // Reverse the horizontal direction
+            if (this.x >= 1270)
+            	this.dx -= 1;
+            
+            if (this.y <= 70)
+                this.dy += 1; // Reverse the vertical direction
+            if (this.y >= 680)
+            	this.dy -= 1;
+            
+            // Update the object's position
             this.x += this.dx;
             this.y += this.dy;
             this.distance -= this.speed;
@@ -159,6 +181,8 @@ public class Shapes {
             this.isMoving = false;
         }
     }
+
+
     
     public void getQuadrant(double newXPos, double newYPos) {
     	if(newXPos > this.x && newYPos < this.y) {
