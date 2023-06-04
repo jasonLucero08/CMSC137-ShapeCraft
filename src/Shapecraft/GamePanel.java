@@ -412,30 +412,33 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         button = buttons[0];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 	//  			button.setColor(Color.cyan);
-			int randy = rand.nextInt(900);
-			CircleFaction circle = new CircleFaction(150, 360, "small");
-			circles.add(circle);
-			circle.getVector(500, randy);
+			int randx = rand.nextInt(1360);
+			SquareFaction square = new SquareFaction(650, 600, "small");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			squares.add(square);
+			square.getVector(randx, 100);
 
 	     }
 
 		button = buttons[1];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
-			int randy = rand.nextInt(900);
-			CircleFaction circle = new CircleFaction(150, 360, "medium");
-			circles.add(circle);
-			circle.getVector(500, randy);
+			int randx = rand.nextInt(1360);
+			SquareFaction square = new SquareFaction(650, 600, "medium");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			squares.add(square);
+			square.getVector(randx, 100);
 
 	    }
 
 		button = buttons[2];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
-			int randy = rand.nextInt(900);
-			CircleFaction circle = new CircleFaction(150, 360, "large");
-			circles.add(circle);
-			circle.getVector(500, randy);
+			int randx = rand.nextInt(1360);
+			SquareFaction square = new SquareFaction(650, 600, "large");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			squares.add(square);
+			square.getVector(randx, 100);
 
 	     }
 
@@ -497,7 +500,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         }
 
 		else if (e.getButton() == MouseEvent.BUTTON2) {
-			squares.add(new SquareFaction(e.getX(),  e.getY(), "small"));
+			circles.add(new CircleFaction(e.getX(),  e.getY(), "small"));
         }
 
         for (int i = 0; i < circles.size(); i++) {

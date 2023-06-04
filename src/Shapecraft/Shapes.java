@@ -20,7 +20,7 @@ public class Shapes {
 	protected String direction;
 	protected Image image;
 
-    
+
     public Shapes(int x, int y, String size) {
         this.x = x;
         this.y = y;
@@ -44,11 +44,11 @@ public class Shapes {
         this.isMoving = false;
 
     }
-    
+
     public String getSize() {
     	return this.size;
     }
-    
+
     public int getX() {
         return x;
     }
@@ -64,11 +64,11 @@ public class Shapes {
     public void setY(int y) {
         this.y = y;
     }
-    
+
     public void setIsClicked(boolean bool) {
     	this.isClicked = bool;
     }
-    
+
     public boolean getIsClicked() {
     	return isClicked;
     }
@@ -88,21 +88,21 @@ public class Shapes {
     public void setHeight(int height) {
         this.height = height;
     }
-    
+
     public void setDistance(int distance) {
         this.distance = distance;
     }
-    
+
 
     public void draw(Graphics g) {
-//        
+//
     	if(this.getIsClicked() == true) {
     	  g.setColor(Color.WHITE);
 //          g.fillRect(x, y, width, height);
     	  g.drawRect(this.x -4, this.y - 4, this.width + 7, this.height + 7);
     	}
-        
-        
+
+
         // Draw the image
         g.drawImage(this.image, this.x, this.y, this.width, this.height, null);
     }
@@ -110,13 +110,13 @@ public class Shapes {
     public boolean isMouseInsideShape(int mouseX, int mouseY) {
         return (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + this.height);
     }
-    
+
     public void setNewPosition(int x, int y) {
     	this.newXpos = x;
     	this.newYpos = y;
-    	
+
     }
-    
+
     public boolean intersects(Shapes shape) {
         int thisLeft = this.x;
         int thisRight = this.x + this.width;
@@ -155,7 +155,7 @@ public class Shapes {
 //            this.x += this.dx;
 //            this.y += this.dy;
 //            this.distance -= this.speed;
-//           
+//
 //        } else {
 //            this.isMoving = false;
 //        }
@@ -167,12 +167,12 @@ public class Shapes {
                 this.dx += 1; // Reverse the horizontal direction
             if (this.x >= 1270)
             	this.dx -= 1;
-            
+
             if (this.y <= 70)
                 this.dy += 1; // Reverse the vertical direction
             if (this.y >= 680)
             	this.dy -= 1;
-            
+
             // Update the object's position
             this.x += this.dx;
             this.y += this.dy;
@@ -183,7 +183,7 @@ public class Shapes {
     }
 
 
-    
+
     public void getQuadrant(double newXPos, double newYPos) {
     	if(newXPos > this.x && newYPos < this.y) {
     		System.out.println("First Quadrant");
@@ -199,7 +199,7 @@ public class Shapes {
     		this.direction = "Fourth Quadrant" ;
     	}
     }
-    
+
     public String getDirection() {
     	return this.direction;
     }
@@ -211,5 +211,5 @@ public class Shapes {
     public void setIsMoving(boolean bool) {
         this.isMoving = bool;
     }
-    
+
 }
