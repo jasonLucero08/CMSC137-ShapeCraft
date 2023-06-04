@@ -1,5 +1,6 @@
 package ChatFeatureWithGui.copy;
 
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -7,18 +8,41 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 
+
+import javax.swing.JOptionPane;
+
+import ChatFeatureWithGui.Shape;
 //import ChatFeature.Client;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.Group;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class ClientStart {
+	
+	private Shape receivedShape;
+	
+	Image playBackground = new Image("file:images/2.png", 1360, 960, true, true);
+	
+	ImageView imageView = new ImageView(playBackground);
+//
+	BackgroundImage background = new BackgroundImage(
+			playBackground,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
+            BackgroundSize.DEFAULT);
 
     private String windowTitle;
     public Button sendButton = new Button("Send");
@@ -31,13 +55,14 @@ public class ClientStart {
     }
     
     public class Client {
-    	
+    	private boolean running;
     	private Socket socket;
     	private BufferedReader bufferedReader;
     	private BufferedWriter bufferedWriter;
     	private String username;
-    
+
 	    public Client(Socket socket, String username) {
+	    	running = true;
 			try {
 				this.socket = socket;
 				this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -55,8 +80,8 @@ public class ClientStart {
 				bufferedWriter.flush();
 				Scanner scanner = new Scanner(System.in);
 				while (socket.isConnected()) {
-					
 					sendButton.setOnAction(event -> sendMessage(inputArea, chatArea));
+
 					
 				}
 			} catch (IOException e) {
@@ -70,6 +95,7 @@ public class ClientStart {
 				public void run() {
 					String msgFromGroupChat;
 					while (socket.isConnected()) {
+						startReceivingUpdates();
 						try {
 							msgFromGroupChat = bufferedReader.readLine();
 //							System.out.println(msgFromGroupChat);
@@ -97,10 +123,9 @@ public class ClientStart {
 				e.printStackTrace();
 			}
 		}
-		
+
 		private void sendMessage(TextArea inputArea, TextArea chatArea) {
 	    	Platform.runLater(() -> {
-	        	System.out.println("Green");
 	            String message = inputArea.getText();
 	            try {
 		            bufferedWriter.write(username + ": " + message);
@@ -110,7 +135,7 @@ public class ClientStart {
 		            inputArea.clear();
 	            }
 	            catch (IOException e) {
-					closeEverything(socket, bufferedReader, bufferedWriter);
+					closeEverything(this.socket, bufferedReader, bufferedWriter);
 				}
 	    	});
 
@@ -122,50 +147,85 @@ public class ClientStart {
 	    	});
 
 	    }
+		
+		private void startReceivingUpdates() {
+			try {
+	            ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
+	            Shape receivedShape;
+	            System.out.println("THIS RAN");
+	            while (this.socket.isConnected()) {
+	            	
+	                // Receive the serialized Shape object from the server
+	                receivedShape = (Shape) objectInputStream.readObject();
+
+	                // Process the received Shape object as needed
+	                System.out.println("Received Shape: x = " + receivedShape.getX() + ", y = " + receivedShape.getY());
+	            }
+	        } catch (IOException | ClassNotFoundException e) {
+	            e.printStackTrace();
+	        }
+	    }
     }
     
+    Thread socketThread = new Thread(() -> {
+    	try {
+//            Scanner scanner = new Scanner(System.in);
+            
+//            System.out.println("Enter your username for the group chat: ");
+            String username = this.windowTitle;
+            Socket socket = new Socket("localhost", 1000);
+            Client client = new Client(socket, username);
+            client.listenForMessage();
+            client.sendMessage();
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle any exceptions that occur during socket connection or communication
+        }
+        
+    });
+    
     public void show() {
+    	 	
     	
-    	
-        stage.setTitle(windowTitle);
-        chatArea.setEditable(false);
-        inputArea.setPrefHeight(50);
-//        TextArea chatArea = new TextArea();
+	    stage.setTitle(windowTitle);
+	    stage.setResizable(false);
+        inputArea.setPrefHeight(40);
+        inputArea.setPrefWidth(195);
+        chatArea.setPrefWidth(270);
+        chatArea.setPrefHeight(120);
+        sendButton.setPrefWidth(60);
+        sendButton.setPrefHeight(40);
         
+        sendButton.setLayoutX(1030);
+        sendButton.setLayoutY(900);
 
-//        TextArea inputArea = new TextArea();
-        
-        VBox chatBox = new VBox(10, chatArea, inputArea, sendButton);
-        BorderPane root = new BorderPane(chatBox);
+        chatArea.setLayoutX(1030);
+        chatArea.setLayoutY(770);
 
-        Scene scene = new Scene(root, 400, 300);
+        inputArea.setLayoutX(1105);
+        inputArea.setLayoutY(900);
+
+//        VBox chatBox = new VBox(4, chatArea, inputArea, sendButton);
+//        chatBox.setPrefSize(400, 300);
+        Pane pane = new Pane(sendButton, chatArea, inputArea);
+        BorderPane root = new BorderPane(pane);
+        root.setBackground(new Background(background));
+
+      
+
+        Scene scene = new Scene(root, 1360, 960);
 
         stage.setScene(scene);
-        stage.show();
-        
+        stage.show(); 
     	// When you run both code segments at the same time, it is likely that the 
         // UI becomes unresponsive because the JavaFX window is running on the main application thread, 
         // while the socket communication is also running on the same thread. 
         // This can cause blocking and unresponsive behavior.
         
-        Thread socketThread = new Thread(() -> {
-        	try {
-                Scanner scanner = new Scanner(System.in);
-                System.out.println("Enter your username for the group chat: ");
-                String username = scanner.nextLine();
-                Socket socket = new Socket("localhost", 1234);
-                Client client = new Client(socket, username);
-                client.listenForMessage();
-                client.sendMessage();
-                
-            } catch (IOException e) {
-                e.printStackTrace();
-                // Handle any exceptions that occur during socket connection or communication
-            }
-            
-        });
         socketThread.start();
-    	
+        
     }
 
     

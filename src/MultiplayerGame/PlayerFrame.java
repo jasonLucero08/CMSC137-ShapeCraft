@@ -16,12 +16,12 @@ public class PlayerFrame extends JFrame{
 	private Image playBackground = Toolkit.getDefaultToolkit().getImage("images//2.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
 	private int width, height;
 	private Container contentPane;
-
+	
 	private MainPlayerShapeSprite me;
 	private MainPlayerShapeSprite enemy;
-
+	
 	private String currentPlayer;
-
+	
 	private DrawingComponent dc;
 	private Timer animationTimer;
 	private boolean up, down, left, right;
@@ -32,7 +32,7 @@ public class PlayerFrame extends JFrame{
 
 	List<MainPlayerShapeSprite> circles = new ArrayList<MainPlayerShapeSprite>();
 	List<MainPlayerShapeSprite> squares = new ArrayList<MainPlayerShapeSprite>();
-
+	
 	public PlayerFrame(int w, int h) {
 		this.width = w;
 		this.height = h;
@@ -101,7 +101,7 @@ public class PlayerFrame extends JFrame{
 				double speed = 5;
 				if(up) {
 					me.moveV(-speed);
-				}
+				} 
 				else if(down) {
 					me.moveV(speed);
 				}
@@ -140,7 +140,7 @@ public class PlayerFrame extends JFrame{
 	}
 
 	private void setUpKeyListener() {
-		KeyListener kl = new KeyListener() {
+		KeyListener kl = new KeyListener() {			
 			public void keyReleased(KeyEvent ke) {
 				int keyCode = ke.getKeyCode();
 
@@ -166,7 +166,7 @@ public class PlayerFrame extends JFrame{
 
 
 			}
-
+			
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -192,10 +192,10 @@ public class PlayerFrame extends JFrame{
 		contentPane.addKeyListener(kl);
 		contentPane.setFocusable(true);
 	}
-
+	
 	private void setUpMouseListener() {
 		MouseListener ml = new MouseListener() {
-
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int mouseX = e.getX();
@@ -204,7 +204,7 @@ public class PlayerFrame extends JFrame{
 		        if(me.getIsClicked()) {
 		        	me.getVector(mouseX, mouseY);
 		        }
-
+		        
 		        if(me.isMouseInsideShape(mouseX, mouseY)) {
 		        	System.out.println("Mouse x and y:" + mouseX + ", " + mouseY);
 					System.out.println("Client object x and y:" + me.getX() + ", " + me.getY());
@@ -215,35 +215,32 @@ public class PlayerFrame extends JFrame{
 		        	me.setIsClicked(false);
 		        }
 
-
-
-
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-
-			}
-
+				
+			}			
+			
 		};
 		contentPane.addMouseListener(ml);
 		contentPane.setFocusable(true);
@@ -272,13 +269,27 @@ public class PlayerFrame extends JFrame{
 					if(enemy!=null) {
 //						System.out.println(dataIn.readDouble());
 //						System.out.println(dataIn.readDouble());
-						enemy.setX(dataIn.readDouble());
-						enemy.setY(dataIn.readDouble());
+						if(currentPlayer == "enemy") {
+							for (int i = 0; i < squares.size(); i++) {
+								MainPlayerShapeSprite square = squares.get(i);
+								square.setX(dataIn.readDouble());
+								square.setY(dataIn.readDouble());
+					    	 }
+							
+						}
+						else {
+							for (int i = 0; i < circles.size(); i++) {
+								MainPlayerShapeSprite circle = circles.get(i);
+								circle.setX(dataIn.readDouble());
+								circle.setY(dataIn.readDouble());
+					    	 }
+						}
+						
 //						System.out.println("enemy shape x and y" + enemy.getX() + ' ' + enemy.getY());
 //						System.out.println("me shape x and y" + me.getX() + ' ' + me.getY());
 					}
 				}
-			}
+			} 
 			catch(IOException ex) {
 				System.out.println("IOException from RFS run()");
 			}
@@ -290,9 +301,9 @@ public class PlayerFrame extends JFrame{
 				System.out.println("Message from server: " + startMsg);
 				Thread readThread = new Thread(rfsRunnable);
 				Thread writeThread = new Thread(wtsRunnable);
-				readThread.start();
-				writeThread.start();
-			}
+				readThread.start();	
+				writeThread.start();	
+			} 
 			catch(IOException ex) {
 				System.out.println("IOException from waitForStartMsg");
 			}
@@ -311,10 +322,22 @@ public class PlayerFrame extends JFrame{
 			try {
 				while(true) {
 					if(me != null) {
-						dataOut.writeDouble(me.getX());
-						dataOut.writeDouble(me.getY());
-						dataOut.flush();
-
+						if(currentPlayer == "enemy") {
+							for (int i = 0; i < circles.size(); i++) {
+								MainPlayerShapeSprite circle = circles.get(i);
+								dataOut.writeDouble(circle.getX());
+								dataOut.writeDouble(circle.getY());
+								dataOut.flush();
+							}
+						}
+						else {
+							for (int i = 0; i < squares.size(); i++) {
+								MainPlayerShapeSprite square = squares.get(i);
+								dataOut.writeDouble(square.getX());
+								dataOut.writeDouble(square.getY());
+								dataOut.flush();
+					    	 }
+						}
 					}
 					try {
 						Thread.sleep(1);
@@ -322,7 +345,7 @@ public class PlayerFrame extends JFrame{
 						System.out.println("InterruptedException from WTS run()");
 					}
 				}
-			}
+			} 
 			catch(IOException ex) {
 				System.out.println("IOException from WTS run()");
 			}
