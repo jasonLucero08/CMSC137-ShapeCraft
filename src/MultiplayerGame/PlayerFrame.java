@@ -44,6 +44,7 @@ public class PlayerFrame extends JFrame{
 
 		setUpAnimationTimer();
 		setUpKeyListener();
+		setUpMouseListener();
 
 
 	}
@@ -58,14 +59,18 @@ public class PlayerFrame extends JFrame{
 			me = new CirclePlayer(490, 400, 50, Color.RED);
 
 		}
-
-
 	}
 
 	private void setUpAnimationTimer() {
 		int interval = 10;
 		ActionListener al = new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				me.move();
+				System.out.println("Animation should it move: " + me.isMoving);
+				System.out.println("outside distance: " + me.distance);
+				System.out.println("outside x: " + me.getX());
+				System.out.println("outside dx: " + me.dx);
+				System.out.println("outside dy: " + me.dy);
 				double speed = 5;
 				if(up) {
 					me.moveV(-speed);
@@ -126,7 +131,6 @@ public class PlayerFrame extends JFrame{
 						right = false;
 						break;
 					}
-
 			}
 
 
@@ -135,6 +139,7 @@ public class PlayerFrame extends JFrame{
 
 
 			}
+			
 
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -158,6 +163,55 @@ public class PlayerFrame extends JFrame{
 			}
 		};
 		contentPane.addKeyListener(kl);
+		contentPane.setFocusable(true);
+	}
+	
+	private void setUpMouseListener() {
+		MouseListener ml = new MouseListener() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int mouseX = e.getX();
+		        int mouseY = e.getY();
+				// TODO Auto-generated method stub
+//		        if(me.isMouseInsideShape(mouseX, mouseY)) {
+//		        	System.out.println("Mouse x and y:" + mouseX + ", " + mouseY);
+//					System.out.println("Client object x and y:" + me.getX() + ", " + me.getY());
+//					System.out.println("Mouse x and y inside shape");
+//		        };
+		        
+		    	System.out.println("It should move");
+		        me.getVector(mouseX, mouseY);
+		        System.out.println("Distance: " + me.distance);
+		        System.out.println("Should move: " + me.isMoving);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}			
+			
+		};
+		contentPane.addMouseListener(ml);
 		contentPane.setFocusable(true);
 	}
 

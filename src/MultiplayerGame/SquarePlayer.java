@@ -15,11 +15,5 @@ public class SquarePlayer extends MainPlayerShapeSprite {
 
 		
 	}
-	
-	public void drawSprite(Graphics2D g2d) {
-		Rectangle2D.Double imageSquare = new Rectangle2D.Double(this.x, this.y, size, size);
-		g2d.drawImage(shapeImage, (int) imageSquare.getX(), (int) imageSquare.getY(), (int) imageSquare.getWidth(), (int) imageSquare.getHeight(), null);
-//		g2d.setColor(color);
-//		g2d.fill(square);
-	}
+
 }
