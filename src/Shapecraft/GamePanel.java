@@ -412,6 +412,16 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
             }
         }
 
+		if (mySquare.health <= 0) {
+            // Game over screen logic
+            int option = JOptionPane.showOptionDialog(this, "YOU WIN!", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Close"}, "Close");
+            if (option == JOptionPane.OK_OPTION) {
+                // Additional actions after the game over screen is closed
+                // Close the game
+                System.exit(0);
+            }
+        }
+
 
 		repaint();
 
