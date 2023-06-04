@@ -13,6 +13,9 @@ import javax.imageio.ImageIO;
 
 import javax.swing.JPanel;
 
+import MultiplayerGame.GameServer;
+import MultiplayerGame.PlayerFrame;
+
 public class GamePanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
 	Image menuBackground = Toolkit.getDefaultToolkit().getImage("images//1.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
 	Image playBackground = Toolkit.getDefaultToolkit().getImage("images//2.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
@@ -39,8 +42,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	List<SquareFaction> squares = new ArrayList<SquareFaction>();
 //	CircleFaction test = new CircleFaction(0, 0, "small");
 	RectangularButton[] menuButtons = {
-			new RectangularButton(163, 443, 287, 75),
-			new RectangularButton(163, 685, 287, 75),
+			new RectangularButton(163, 370, 287, 75),
+			new RectangularButton(163, 575, 287, 75),
+			new RectangularButton(192, 712, 228, 60),
+			new RectangularButton(220, 820, 173, 45),
 	};
 	RectangularButton[] buttons = {
 			new RectangularButton(22, 842, 82, 80),
@@ -52,7 +57,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 
 	// Game States
 	public final int menuState = 1;
-	public final int playState = 2;
+	public final int singleState = 2;
+	public final int multiState = 3;
 	public int gameState = menuState;
 
 
@@ -74,7 +80,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 				RectangularButton button = menuButtons[i];
 		   		button.draw(g);
 			}
-		} else {
+		} else if (gameState == singleState) {
 //			p = MouseInfo.getPointerInfo().getLocation();
 
 			for (int i = 0; i < buttons.length; i++) {
@@ -99,16 +105,24 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //
 	}
 
+	int count = 0;
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (gameState == menuState) {
         	g.drawImage(menuBackground, 0, 0, null);
             draw(g);
-        }
-        else {
+        } else if (gameState == singleState) {
         	g.drawImage(playBackground, 0, 0, null);
             draw(g);
+        } else {
+        	if (count == 0) {
+        		PlayerFrame multiplayer = new PlayerFrame(SCREEN_WIDTH, SCREEN_HEIGHT);
+            	multiplayer.connectToServer();
+            	multiplayer.setUpGUI();
+
+            	count++;
+        	}
         }
     }
 
@@ -370,12 +384,23 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 
         button = menuButtons[0];
         if (button.isMouseInsideSquare(mouseX, mouseY)) {
-        	gameState = playState;
+        	gameState = singleState;
 	    }
 
         button = menuButtons[1];
         if (button.isMouseInsideSquare(mouseX, mouseY)) {
-        	gameState = playState;
+        	gameState = multiState;
+	    }
+
+        button = menuButtons[2];
+        if (button.isMouseInsideSquare(mouseX, mouseY)) {
+        	GameServer multiplayerServer = new GameServer();
+        	multiplayerServer.acceptConnections();
+	    }
+
+        button = menuButtons[3];
+        if (button.isMouseInsideSquare(mouseX, mouseY)) {
+        	System.exit(0);
 	    }
 
         button = buttons[0];
