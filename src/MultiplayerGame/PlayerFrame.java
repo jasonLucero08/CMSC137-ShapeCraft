@@ -8,10 +8,11 @@ import java.io.*;
 import java.net.*;
 
 public class PlayerFrame extends JFrame{
+	private Image playBackground = Toolkit.getDefaultToolkit().getImage("images//2.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
 	private int width, height;
 	private Container contentPane;
-	private PlayerSprite me;
-	private PlayerSprite enemy;
+	private MainPlayerShapeSprite me;
+	private MainPlayerShapeSprite enemy;
 	private DrawingComponent dc;
 	private Timer animationTimer;
 	private boolean up, down, left, right;
@@ -19,8 +20,8 @@ public class PlayerFrame extends JFrame{
 	private int playerID;
 	private ReadFromServer rfsRunnable;
 	private WriteToServer wtsRunnable;
-	
-	
+
+
 	public PlayerFrame(int w, int h) {
 		this.width = w;
 		this.height = h;
@@ -29,7 +30,7 @@ public class PlayerFrame extends JFrame{
 		left = false;
 		right = false;
 	}
-	
+
 	public void setUpGUI() {
 		contentPane = this.getContentPane();
 		this.setTitle("Player #" + playerID);
@@ -40,27 +41,27 @@ public class PlayerFrame extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
-		
+
 		setUpAnimationTimer();
 		setUpKeyListener();
-		
-		
+
+
 	}
-	
+
 	private void createSprites() {
 		if(playerID == 1) {
-			me = new PlayerSprite(100, 400, 50, Color.BLUE);
-			enemy = new PlayerSprite(490, 400, 50, Color.RED);
+			me = new SquarePlayer(100, 400, 50, Color.BLUE);
+			enemy = new CirclePlayer(490, 400, 50, Color.RED);
 		}
 		else {
-			enemy = new PlayerSprite(100, 400, 50, Color.BLUE);
-			me = new PlayerSprite(490, 400, 50, Color.RED);
+			enemy = new SquarePlayer(100, 400, 50, Color.BLUE);
+			me = new CirclePlayer(490, 400, 50, Color.RED);
 
 		}
-		
-		
+
+
 	}
-	
+
 	private void setUpAnimationTimer() {
 		int interval = 10;
 		ActionListener al = new ActionListener() {
@@ -84,7 +85,7 @@ public class PlayerFrame extends JFrame{
 		this.animationTimer = new Timer(interval, al);
 		this.animationTimer.start();
 	}
-	
+
 	private void connectToServer() {
 		try {
 			socket = new Socket("localhost", 45371);
@@ -92,11 +93,11 @@ public class PlayerFrame extends JFrame{
 			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 			playerID = in.readInt();
 			System.out.println("You are player#" + playerID);
-			
+
 			if(playerID == 1) {
 				System.out.println("Waiting for Player #2 to connect...");
 			}
-			
+
 			rfsRunnable = new ReadFromServer(in);
 			wtsRunnable = new WriteToServer(out);
 			rfsRunnable.waitForStartMsg();
@@ -105,12 +106,12 @@ public class PlayerFrame extends JFrame{
 			System.out.println("IOException from connectTOserver");
 		}
 	}
-	
+
 	private void setUpKeyListener() {
 		KeyListener kl = new KeyListener() {			
 			public void keyReleased(KeyEvent ke) {
 				int keyCode = ke.getKeyCode();
-				
+
 				switch(keyCode) {
 					case KeyEvent.VK_UP:
 						up = false;
@@ -125,21 +126,21 @@ public class PlayerFrame extends JFrame{
 						right = false;
 						break;
 					}
-				
+
 			}
 
-			
+
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
-				
+
+
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				// TODO Auto-generated method stub
 				int keyCode = e.getKeyCode();
-				
+
 				switch(keyCode) {
 					case KeyEvent.VK_UP:
 						up = true;
@@ -159,31 +160,32 @@ public class PlayerFrame extends JFrame{
 		contentPane.addKeyListener(kl);
 		contentPane.setFocusable(true);
 	}
-	
+
 	private class DrawingComponent extends JComponent{
 		protected void paintComponent(Graphics g) {
 			Graphics2D g2d = (Graphics2D) g;
+			g2d.drawImage(playBackground, 0, 0, getWidth(), getHeight(), null);
 			enemy.drawSprite(g2d);
 			me.drawSprite(g2d);
 		}
 	}
-	
+
 	private class ReadFromServer implements Runnable {
 		private DataInputStream dataIn;
-		
+
 		public ReadFromServer(DataInputStream in) {
 			dataIn = in;
 			System.out.println("RFS Runnable created");
 		}
-		
+
 		public void run() {
 			try {
 				while(true) {
 					if(enemy!=null) {
 						enemy.setX(dataIn.readDouble());
 						enemy.setY(dataIn.readDouble());
-						System.out.println("enemy shape x and y" + enemy.getX() + ' ' + enemy.getY());
-						System.out.println("me shape x and y" + me.getX() + ' ' + me.getY());
+//						System.out.println("enemy shape x and y" + enemy.getX() + ' ' + enemy.getY());
+//						System.out.println("me shape x and y" + me.getX() + ' ' + me.getY());
 					}
 				}
 			} 
@@ -191,7 +193,7 @@ public class PlayerFrame extends JFrame{
 				System.out.println("IOException from RFS run()");
 			}
 		}
-		
+
 		public void waitForStartMsg() {
 			try {
 				String startMsg = dataIn.readUTF();
@@ -206,15 +208,15 @@ public class PlayerFrame extends JFrame{
 			}
 		}
 	}
-	
+
 	private class WriteToServer implements Runnable {
 		private DataOutputStream dataOut;
-		
+
 		public WriteToServer(DataOutputStream out) {
 			dataOut = out;
 			System.out.println("WTS Runnable created");
 		}
-		
+
 		public void run() {
 			try {
 				while(true) {
@@ -236,8 +238,8 @@ public class PlayerFrame extends JFrame{
 			}
 		}
 	}
-	
-	
+
+
 	public static void main(String[]args) {
 		PlayerFrame pf = new PlayerFrame(640, 480);
 		pf.connectToServer();

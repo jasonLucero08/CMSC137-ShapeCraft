@@ -2,6 +2,7 @@ package ChatFeatureWithGui;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -84,7 +85,7 @@ public class Server {
 	}
 
 	public static void main(String[] args) throws IOException {
-		ServerSocket serverSocket = new ServerSocket(1234);
+		ServerSocket serverSocket = new ServerSocket(1000);
 		Server server = new Server(serverSocket);
 		server.startServer();
 
