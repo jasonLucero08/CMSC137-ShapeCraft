@@ -227,7 +227,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         	Shapes shapeOne = squares.get(i);
         	if(myCircle.intersects(shapeOne)) {
         		squares.remove(shapeOne);
-        		myCircle.health -= 10;
+        		if (shapeOne.getSize() == "small") {
+        			myCircle.health -= 10;
+        		} else if (shapeOne.getSize() == "medium") {
+        			myCircle.health -= 15;
+        		} else if (shapeOne.getSize() == "large") {
+        			myCircle.health -= 20;
+        		}
         	}
         }
 
@@ -343,6 +349,49 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //    		    	System.out.println("Not intersecting");
 
     		    }
+        	}
+        }
+
+        for (int i = 0; i < circles.size(); i++) {
+        	Shapes shapeOne = circles.get(i);
+        	if(mySquare.intersects(shapeOne)) {
+        		circles.remove(shapeOne);
+        		if (shapeOne.getSize() == "small") {
+        			mySquare.health -= 10;
+        		} else if (shapeOne.getSize() == "medium") {
+        			mySquare.health -= 15;
+        		} else if (shapeOne.getSize() == "large") {
+        			mySquare.health -= 20;
+        		}
+
+        	}
+        }
+
+        for (int i = 0; i < squares.size(); i++) {
+        	Shapes shapeOne = squares.get(i);
+        	if(myTriangle.intersects(shapeOne)) {
+        		squares.remove(shapeOne);
+        		if (shapeOne.getSize() == "small") {
+        			myTriangle.health -= 10;
+        		} else if (shapeOne.getSize() == "medium") {
+        			myTriangle.health -= 15;
+        		} else if (shapeOne.getSize() == "large") {
+        			myTriangle.health -= 20;
+        		}
+        	}
+        }
+
+        for (int i = 0; i < squares.size(); i++) {
+        	Shapes shapeOne = squares.get(i);
+        	if(myDiamond.intersects(shapeOne)) {
+        		squares.remove(shapeOne);
+        		if (shapeOne.getSize() == "small") {
+        			myDiamond.health -= 10;
+        		} else if (shapeOne.getSize() == "medium") {
+        			myDiamond.health -= 15;
+        		} else if (shapeOne.getSize() == "large") {
+        			myDiamond.health -= 20;
+        		}
         	}
         }
 

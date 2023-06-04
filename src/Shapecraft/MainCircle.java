@@ -64,16 +64,18 @@ public class MainCircle {
 //        g.setColor(Color.ORANGE);
 //        g.fillRect(x, y, width, height);
 //        g.drawRect(x, y, width, height);
-    	g.setColor(Color.RED);
-        int barWidth = width;
-        int barHeight = 10;
-        int barX = x;
-        int barY = y - barHeight - 5;
-        g.fillRect(barX, barY, barWidth, barHeight);
+    	if (this.health > 0) {
+    		g.setColor(Color.RED);
+            int barWidth = width;
+            int barHeight = 10;
+            int barX = x;
+            int barY = y - barHeight - 5;
+            g.fillRect(barX, barY, barWidth, barHeight);
 
-        g.setColor(Color.GREEN);
-        int healthBarWidth = (int) (barWidth * (health / 100.0));
-        g.fillRect(barX, barY, healthBarWidth, barHeight);
+            g.setColor(Color.GREEN);
+            int healthBarWidth = (int) (barWidth * (health / 100.0));
+            g.fillRect(barX, barY, healthBarWidth, barHeight);
+    	}
 
         g.drawImage(this.image, x, y, width, height, null);
     }
