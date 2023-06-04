@@ -45,6 +45,21 @@ public class MainSquare {
         this.y = y;
     }
 
+    public boolean intersects(Shapes shape) {
+        int thisLeft = this.x;
+        int thisRight = this.x + this.width;
+        int thisTop = this.y;
+        int thisBottom = this.y + this.height;
+
+        int otherLeft = shape.getX();
+        int otherRight = shape.getX() + shape.getWidth();
+        int otherTop = shape.getY();
+        int otherBottom = shape.getY() + shape.getHeight();
+
+        return thisLeft < otherRight && thisRight > otherLeft &&
+               thisTop < otherBottom && thisBottom > otherTop;
+    }
+
     public void draw(Graphics g) {
 //        g.setColor(Color.ORANGE);
 //        g.fillRect(x, y, width, height);
