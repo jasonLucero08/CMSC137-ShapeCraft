@@ -4,15 +4,24 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Shapecraft.CircleFaction;
+import Shapecraft.SquareFaction;
+
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerFrame extends JFrame{
 	private Image playBackground = Toolkit.getDefaultToolkit().getImage("images//2.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
 	private int width, height;
 	private Container contentPane;
+	
 	private MainPlayerShapeSprite me;
 	private MainPlayerShapeSprite enemy;
+	
+	private String currentPlayer;
+	
 	private DrawingComponent dc;
 	private Timer animationTimer;
 	private boolean up, down, left, right;
@@ -21,7 +30,9 @@ public class PlayerFrame extends JFrame{
 	private ReadFromServer rfsRunnable;
 	private WriteToServer wtsRunnable;
 
-
+	List<MainPlayerShapeSprite> circles = new ArrayList<MainPlayerShapeSprite>();
+	List<MainPlayerShapeSprite> squares = new ArrayList<MainPlayerShapeSprite>();
+	
 	public PlayerFrame(int w, int h) {
 		this.width = w;
 		this.height = h;
@@ -46,17 +57,22 @@ public class PlayerFrame extends JFrame{
 		setUpKeyListener();
 		setUpMouseListener();
 
-
 	}
 
 	private void createSprites() {
 		if(playerID == 1) {
 			me = new SquarePlayer(100, 400, 50, Color.BLUE);
-			enemy = new CirclePlayer(490, 400, 50, Color.RED);
+			squares.add(me);
+			enemy = new CirclePlayer(1170, 400, 50, Color.RED);
+			circles.add(enemy);
+			currentPlayer = "me";
 		}
 		else {
 			enemy = new SquarePlayer(100, 400, 50, Color.BLUE);
-			me = new CirclePlayer(490, 400, 50, Color.RED);
+			squares.add(enemy);
+			me = new CirclePlayer(1170, 400, 50, Color.RED);
+			circles.add(me);
+			currentPlayer = "enemy";
 
 		}
 	}
@@ -65,12 +81,23 @@ public class PlayerFrame extends JFrame{
 		int interval = 10;
 		ActionListener al = new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				me.move();
-				System.out.println("Animation should it move: " + me.isMoving);
-				System.out.println("outside distance: " + me.distance);
-				System.out.println("outside x: " + me.getX());
-				System.out.println("outside dx: " + me.dx);
-				System.out.println("outside dy: " + me.dy);
+				if(currentPlayer == "me") {
+					for (int i = 0; i < squares.size(); i++) {
+						MainPlayerShapeSprite square = squares.get(i);
+						square.move();
+			    	 }
+				}
+				else if(currentPlayer == "enemy"){
+					for (int i = 0; i < circles.size(); i++) {
+						MainPlayerShapeSprite circle = circles.get(i);
+						circle.move();
+			    	 }
+				}
+//				System.out.println("Animation should it move: " + me.isMoving);
+//				System.out.println("outside distance: " + me.distance);
+//				System.out.println("outside x: " + me.getX());
+//				System.out.println("outside dx: " + me.dx);
+//				System.out.println("outside dy: " + me.dy);
 				double speed = 5;
 				if(up) {
 					me.moveV(-speed);
@@ -174,16 +201,23 @@ public class PlayerFrame extends JFrame{
 				int mouseX = e.getX();
 		        int mouseY = e.getY();
 				// TODO Auto-generated method stub
-//		        if(me.isMouseInsideShape(mouseX, mouseY)) {
-//		        	System.out.println("Mouse x and y:" + mouseX + ", " + mouseY);
-//					System.out.println("Client object x and y:" + me.getX() + ", " + me.getY());
-//					System.out.println("Mouse x and y inside shape");
-//		        };
+		        if(me.getIsClicked()) {
+		        	me.getVector(mouseX, mouseY);
+		        }
 		        
-		    	System.out.println("It should move");
-		        me.getVector(mouseX, mouseY);
-		        System.out.println("Distance: " + me.distance);
-		        System.out.println("Should move: " + me.isMoving);
+		        if(me.isMouseInsideShape(mouseX, mouseY)) {
+		        	System.out.println("Mouse x and y:" + mouseX + ", " + mouseY);
+					System.out.println("Client object x and y:" + me.getX() + ", " + me.getY());
+					System.out.println("Mouse x and y inside shape");
+					me.setIsClicked(true);
+		        }
+		        else {
+		        	me.setIsClicked(false);
+		        }
+		        
+		        
+		        
+
 			}
 
 			@Override
@@ -236,6 +270,8 @@ public class PlayerFrame extends JFrame{
 			try {
 				while(true) {
 					if(enemy!=null) {
+//						System.out.println(dataIn.readDouble());
+//						System.out.println(dataIn.readDouble());
 						enemy.setX(dataIn.readDouble());
 						enemy.setY(dataIn.readDouble());
 //						System.out.println("enemy shape x and y" + enemy.getX() + ' ' + enemy.getY());
@@ -281,7 +317,7 @@ public class PlayerFrame extends JFrame{
 
 					}
 					try {
-						Thread.sleep(5);
+						Thread.sleep(1);
 					} catch(InterruptedException ex) {
 						System.out.println("InterruptedException from WTS run()");
 					}
@@ -295,7 +331,7 @@ public class PlayerFrame extends JFrame{
 
 
 	public static void main(String[]args) {
-		PlayerFrame pf = new PlayerFrame(640, 480);
+		PlayerFrame pf = new PlayerFrame(1360, 960);
 		pf.connectToServer();
 		pf.setUpGUI();
 	}

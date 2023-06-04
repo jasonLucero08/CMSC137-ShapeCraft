@@ -41,7 +41,13 @@ public class MainPlayerShapeSprite {
 	public void drawSprite(Graphics2D g2d) {
 		Rectangle2D.Double imageSquare = new Rectangle2D.Double(this.x, this.y, size, size);
 		g2d.drawImage(shapeImage, (int) imageSquare.getX(), (int) imageSquare.getY(), (int) imageSquare.getWidth(), (int) imageSquare.getHeight(), null);
-
+		
+		if(this.isClicked == true) {
+			Rectangle2D.Double isClickedSquare = new Rectangle2D.Double(this.x -4, this.y - 4, this.size + 6, this.size + 6);
+			g2d.draw(isClickedSquare);
+		}
+		
+		g2d.setColor(Color.BLUE);
 //		g2d.setColor(color);
 //		g2d.fill(square);
 	}
@@ -52,8 +58,7 @@ public class MainPlayerShapeSprite {
 	}
 	
 	 public void move() {
-	    System.out.println("inside dx: " + this.dx);
-		System.out.println("inside dy: " + this.dy);
+
         if (this.distance > 0) {
 //        	System.out.println(this.distance + " is greater");
             // Check if the object hits the walls
@@ -68,14 +73,12 @@ public class MainPlayerShapeSprite {
 //            	this.dy -= 1;
         	
             // Update the object's position
-        	System.out.println("BLUE");
             this.x += this.dx;
             this.y += this.dy;
 //            
             this.distance -= this.speed;
         } 
         else {
-        	System.out.println("RED");
             this.isMoving = false;
         }
      }
@@ -127,4 +130,12 @@ public class MainPlayerShapeSprite {
 	public double getY() {
 		return this.y;
 	}
+	
+	public void setIsClicked(boolean bool) {
+    	this.isClicked = bool;
+    }
+	
+	public boolean getIsClicked() {
+    	return isClicked;
+    }
 }

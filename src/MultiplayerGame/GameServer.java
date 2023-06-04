@@ -23,10 +23,10 @@ public class GameServer {
         System.out.println("===== GAME SERVER =====");
         numPlayers = 0;
         maxPlayers = 2;
-        
+       
         p1x = 100;
         p1y = 400;
-        p2x = 490;
+        p2x = 1170;
         p2y = 400;
         
         try {
