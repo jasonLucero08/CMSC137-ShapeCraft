@@ -225,8 +225,6 @@ public class ClientStart {
         
         socketThread.start();
         
-        
-    	
     }
 
     

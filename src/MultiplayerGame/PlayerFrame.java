@@ -214,9 +214,6 @@ public class PlayerFrame extends JFrame{
 		        else {
 		        	me.setIsClicked(false);
 		        }
-		        
-		        
-		        
 
 			}
 
@@ -272,8 +269,22 @@ public class PlayerFrame extends JFrame{
 					if(enemy!=null) {
 //						System.out.println(dataIn.readDouble());
 //						System.out.println(dataIn.readDouble());
-						enemy.setX(dataIn.readDouble());
-						enemy.setY(dataIn.readDouble());
+						if(currentPlayer == "enemy") {
+							for (int i = 0; i < squares.size(); i++) {
+								MainPlayerShapeSprite square = squares.get(i);
+								square.setX(dataIn.readDouble());
+								square.setY(dataIn.readDouble());
+					    	 }
+							
+						}
+						else {
+							for (int i = 0; i < circles.size(); i++) {
+								MainPlayerShapeSprite circle = circles.get(i);
+								circle.setX(dataIn.readDouble());
+								circle.setY(dataIn.readDouble());
+					    	 }
+						}
+						
 //						System.out.println("enemy shape x and y" + enemy.getX() + ' ' + enemy.getY());
 //						System.out.println("me shape x and y" + me.getX() + ' ' + me.getY());
 					}
@@ -311,10 +322,22 @@ public class PlayerFrame extends JFrame{
 			try {
 				while(true) {
 					if(me != null) {
-						dataOut.writeDouble(me.getX());
-						dataOut.writeDouble(me.getY());
-						dataOut.flush();
-
+						if(currentPlayer == "enemy") {
+							for (int i = 0; i < circles.size(); i++) {
+								MainPlayerShapeSprite circle = circles.get(i);
+								dataOut.writeDouble(circle.getX());
+								dataOut.writeDouble(circle.getY());
+								dataOut.flush();
+							}
+						}
+						else {
+							for (int i = 0; i < squares.size(); i++) {
+								MainPlayerShapeSprite square = squares.get(i);
+								dataOut.writeDouble(square.getX());
+								dataOut.writeDouble(square.getY());
+								dataOut.flush();
+					    	 }
+						}
 					}
 					try {
 						Thread.sleep(1);

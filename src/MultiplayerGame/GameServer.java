@@ -2,6 +2,8 @@ package MultiplayerGame;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameServer {
 
@@ -17,17 +19,16 @@ public class GameServer {
     private WriteToClient p2WriteRunnable;
 
     private double p1x, p1y, p2x, p2y;
+    List<ShapeState> shapesOne = new ArrayList<ShapeState>();
+    List<ShapeState> shapesTwo = new ArrayList<ShapeState>();
     
     
     public GameServer() {
         System.out.println("===== GAME SERVER =====");
         numPlayers = 0;
         maxPlayers = 2;
-       
-        p1x = 100;
-        p1y = 400;
-        p2x = 1170;
-        p2y = 400;
+        shapesOne.add(new ShapeState(1170, 400));
+        shapesTwo.add(new ShapeState(100, 400));
         
         try {
             ss = new ServerSocket (45371);
@@ -95,12 +96,19 @@ public class GameServer {
     		try {
 				while(true) {
 					if(playerID == 1) {
-						p1x = dataIn.readDouble();
-						p1y = dataIn.readDouble();
+						for (int i = 0; i < shapesOne.size(); i++) {
+							ShapeState shape = shapesOne.get(i);
+							shape.x = dataIn.readDouble();
+							shape.y = dataIn.readDouble();
+				    	 }
+						
 					} 
 					else {
-						p2x = dataIn.readDouble();
-						p2y = dataIn.readDouble();
+						for (int i = 0; i < shapesTwo.size(); i++) {
+							ShapeState shape = shapesTwo.get(i);
+							shape.x = dataIn.readDouble();
+							shape.y = dataIn.readDouble();
+				    	 }
 					}
 				}
 			} 
@@ -125,14 +133,26 @@ public class GameServer {
     		try {
 				while(true) {
 					if(playerID == 1) {
-						dataOut.writeDouble(p2x);
-						dataOut.writeDouble(p2y);
-						dataOut.flush();
+						for (int i = 0; i < shapesTwo.size(); i++) {
+							ShapeState shape = shapesTwo.get(i);
+							dataOut.writeDouble(shape.x);
+							dataOut.writeDouble(shape.y);
+							dataOut.flush();
+				    	 }
+//						dataOut.writeDouble(p2x);
+//						dataOut.writeDouble(p2y);
+//						dataOut.flush();
 					} 
 					else {
-						dataOut.writeDouble(p1x);
-						dataOut.writeDouble(p1y);
-						dataOut.flush();
+						for (int i = 0; i < shapesOne.size(); i++) {
+							ShapeState shape = shapesOne.get(i);
+							dataOut.writeDouble(shape.x);
+							dataOut.writeDouble(shape.y);
+							dataOut.flush();
+				    	 }
+//						dataOut.writeDouble(p1x);
+//						dataOut.writeDouble(p1y);
+//						dataOut.flush();
 					}
 					try {
 						Thread.sleep(25);
