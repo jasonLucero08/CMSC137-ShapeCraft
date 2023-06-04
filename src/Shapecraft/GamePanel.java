@@ -61,6 +61,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 	public final int multiState = 3;
 	public int gameState = menuState;
 
+	private CountdownTimer countdownTimer;
 
 	GamePanel(){
 
@@ -72,6 +73,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		this.addMouseMotionListener(this);
 		timer = new Timer(DELAY, this);
 		timer.start();
+
+		countdownTimer = new CountdownTimer();
+		countdownTimer.setBounds(360, 780, 650, 160); // Set the position and size of the countdown timer
+		this.setLayout(null); // Set the layout manager to null for absolute positioning
+		this.add(countdownTimer);
 	}
 
 	public void draw(Graphics g) {
