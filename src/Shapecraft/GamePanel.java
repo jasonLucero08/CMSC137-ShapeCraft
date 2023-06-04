@@ -16,6 +16,10 @@ import javax.swing.JPanel;
 import MultiplayerGame.GameServer;
 import MultiplayerGame.PlayerFrame;
 
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class GamePanel extends JPanel implements ActionListener, MouseListener, MouseMotionListener{
 	Image menuBackground = Toolkit.getDefaultToolkit().getImage("images//1.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
 	Image playBackground = Toolkit.getDefaultToolkit().getImage("images//2.png").getScaledInstance(1360, 960, Image.SCALE_SMOOTH);
@@ -346,7 +350,15 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         	}
         }
 
-
+		if (myCircle.health <= 0) {
+            // Game over screen logic
+            int option = JOptionPane.showOptionDialog(this, "YOU WIN!", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Close"}, "Close");
+            if (option == JOptionPane.OK_OPTION) {
+                // Additional actions after the game over screen is closed
+                // Close the game
+                System.exit(0);
+            }
+        }
 
 		repaint();
 
