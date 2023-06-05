@@ -99,7 +99,10 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 
 			for (int i = 0; i < buttons.length; i++) {
 		   		 RectangularButton button = buttons[i];
-		   		 button.draw(g);
+		   		 boolean check = checkMainUnitLimit(i);
+		   		 if (check == true) {
+		   			button.draw(g);
+		   		 }
 		   	}
 			for (int i = 0; i < circles.size(); i++) {
 			    CircleFaction circle = circles.get(i);
@@ -129,6 +132,50 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			this.add(countdownTimer);
 		}
 //
+	}
+
+	protected boolean checkMainUnitLimit(int i) {
+		 int numSmall = 0;
+		 int numMedium = 0;
+		 int numLarge = 0;
+
+		 if (i == 0) {
+			 for (int j = 0; j < squares.size(); j++) {
+				 if (squares.get(j).getSize() == "small") {
+					 numSmall++;
+				 }
+			 }
+
+			 if (numSmall >= 1) {
+				 return false;
+			 } else {
+				 return true;
+			 }
+		 } else if (i == 1) {
+			 for (int j = 0; j < squares.size(); j++) {
+				 if (squares.get(j).getSize() == "medium") {
+					 numMedium++;
+				 }
+			 }
+
+			 if (numMedium >= 3) {
+				 return false;
+			 } else {
+				 return true;
+			 }
+		 } else {
+			 for (int j = 0; j < squares.size(); j++) {
+				 if (squares.get(j).getSize() == "large") {
+					 numLarge++;
+				 }
+			 }
+
+			 if (numLarge >= 5) {
+				 return false;
+			 } else {
+				 return true;
+			 }
+		 }
 	}
 
 	int count = 0;
@@ -192,7 +239,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //			System.out.println("You must move!");
 		myCircle.move();
 		mySquare.move();
-		
+
 		if(timeInGame % 100 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			CircleFaction circle = new CircleFaction(85, 320, "small");
@@ -201,7 +248,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			circle.getVector(735, 670);
 
 		}
-		
+
 		if(timeInGame % 500 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			DiamondFaction diamond = new DiamondFaction(1170, 320, "medium");
@@ -210,7 +257,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			diamond.getVector(735, 720);
 
 		}
-		
+
 		if(timeInGame % 1000 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			TriangleFaction triangle = new TriangleFaction(635, 75, "large");
@@ -219,12 +266,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			triangle.getVector(735, 720);
 
 		}
-		
+
 		if(countdownTimer.timeRemaining % 10000 != 0) {
 			timeInGame++;
 			System.out.println(timeInGame);
 		}
-		
+
 //		test.move();
 		for (int i = 0; i < circles.size(); i++) {
 		    CircleFaction circle = circles.get(i);
@@ -237,13 +284,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		    // Do something with car object
 		    square.move();
 		}
-		
+
 		for (int i = 0; i < triangles.size(); i++) {
 		    TriangleFaction triangle = triangles.get(i);
 		    // Do something with car object
 		    triangle.move();
 		}
-		
+
 		for (int i = 0; i < diamonds.size(); i++) {
 		    DiamondFaction diamond = diamonds.get(i);
 		    // Do something with car object
@@ -317,6 +364,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    		circles.remove(shapeOne);
     		    	}
     		    	else {
+    		    		circles.remove(shapeOne);
+    		    		squares.remove(shapeTwo);
     		    		shapeOne.setDistance(0);
     		    	}
 
@@ -548,34 +597,41 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         button = buttons[0];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 	//  			button.setColor(Color.cyan);
-			int randx = 500 + rand.nextInt(500);
-			SquareFaction square = new SquareFaction(650, 600, "small");
-//			CircleFaction circle = new CircleFaction(150, 360, "small");
-			squares.add(square);
-			square.getVector(randx, 400);
-
+			boolean check = checkMainUnitLimit(0);
+			if (check == true) {
+				int randx = 500 + rand.nextInt(500);
+				SquareFaction square = new SquareFaction(650, 600, "small");
+//				CircleFaction circle = new CircleFaction(150, 360, "small");
+				squares.add(square);
+				square.getVector(randx, 400);
+			}
 	     }
 
 		button = buttons[1];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
-			int randx = 500 + rand.nextInt(500);
-			SquareFaction square = new SquareFaction(650, 600, "medium");
-//			CircleFaction circle = new CircleFaction(150, 360, "small");
-			squares.add(square);
-			square.getVector(randx, 400);
+			boolean check = checkMainUnitLimit(1);
+			if (check == true) {
+				int randx = 500 + rand.nextInt(500);
+				SquareFaction square = new SquareFaction(650, 600, "medium");
+		//			CircleFaction circle = new CircleFaction(150, 360, "small");
+				squares.add(square);
+				square.getVector(randx, 400);
+			}
 
 	    }
 
 		button = buttons[2];
 		if (button.isMouseInsideSquare(mouseX, mouseY)) {
 			//  			button.setColor(Color.cyan);
-			int randx = 500 + rand.nextInt(500);
-			SquareFaction square = new SquareFaction(650, 600, "large");
-//			CircleFaction circle = new CircleFaction(150, 360, "small");
-			squares.add(square);
-			square.getVector(randx, 400);
-
+			boolean check = checkMainUnitLimit(2);
+			if (check == true) {
+				int randx = 500 + rand.nextInt(500);
+				SquareFaction square = new SquareFaction(650, 600, "large");
+		//			CircleFaction circle = new CircleFaction(150, 360, "small");
+				squares.add(square);
+				square.getVector(randx, 400);
+			}
 	     }
 
 //		button = buttons[2];
