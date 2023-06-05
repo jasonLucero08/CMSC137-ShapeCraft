@@ -94,7 +94,7 @@ public class ClientStart {
 				public void run() {
 					String msgFromGroupChat;
 					while (socket.isConnected()) {
-						startReceivingUpdates();
+//						startReceivingUpdates();
 						try {
 							msgFromGroupChat = bufferedReader.readLine();
 //							System.out.println(msgFromGroupChat);
@@ -146,24 +146,24 @@ public class ClientStart {
 	    	});
 
 	    }
-		
-		private void startReceivingUpdates() {
-	        try {
-	            ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
-	            Shape receivedShape;
-	            System.out.println("THIS RAN");
-	            while (this.socket.isConnected()) {
-	            	
-	                // Receive the serialized Shape object from the server
-	                receivedShape = (Shape) objectInputStream.readObject();
-
-	                // Process the received Shape object as needed
-	                System.out.println("Received Shape: x = " + receivedShape.getX() + ", y = " + receivedShape.getY());
-	            }
-	        } catch (IOException | ClassNotFoundException e) {
-	            e.printStackTrace();
-	        }
-	    }
+//		
+//		private void startReceivingUpdates() {
+//	        try {
+//	            ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
+//	            Shape receivedShape;
+//	            System.out.println("THIS RAN");
+//	            while (this.socket.isConnected()) {
+//	            	
+//	                // Receive the serialized Shape object from the server
+//	                receivedShape = (Shape) objectInputStream.readObject();
+//
+//	                // Process the received Shape object as needed
+//	                System.out.println("Received Shape: x = " + receivedShape.getX() + ", y = " + receivedShape.getY());
+//	            }
+//	        } catch (IOException | ClassNotFoundException e) {
+//	            e.printStackTrace();
+//	        }
+//	    }
     }
     
     Thread socketThread = new Thread(() -> {
@@ -172,7 +172,7 @@ public class ClientStart {
             
 //            System.out.println("Enter your username for the group chat: ");
             String username = this.windowTitle;
-            Socket socket = new Socket("localhost", 1000);
+            Socket socket = new Socket("localhost", 1234);
             Client client = new Client(socket, username);
             client.listenForMessage();
             client.sendMessage();

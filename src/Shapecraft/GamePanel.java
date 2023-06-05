@@ -204,10 +204,64 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		
 		if(timeInGame % 500 == 0) {
 			int randx = 500 + rand.nextInt(500);
+			CircleFaction circle = new CircleFaction(85, 320, "medium");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			circles.add(circle);
+			circle.getVector(735, 670);
+
+		}
+		
+		if(timeInGame % 1000 == 0) {
+			int randx = 500 + rand.nextInt(500);
+			CircleFaction circle = new CircleFaction(85, 320, "large");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			circles.add(circle);
+			circle.getVector(735, 670);
+
+		}
+		
+		if(timeInGame % 100 == 0) {
+			int randx = 500 + rand.nextInt(500);
+			DiamondFaction diamond = new DiamondFaction(1170, 320, "small");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			diamonds.add(diamond);
+			diamond.getVector(735, 720);
+
+		}
+		
+		if(timeInGame % 500 == 0) {
+			int randx = 500 + rand.nextInt(500);
 			DiamondFaction diamond = new DiamondFaction(1170, 320, "medium");
 //			CircleFaction circle = new CircleFaction(150, 360, "small");
 			diamonds.add(diamond);
 			diamond.getVector(735, 720);
+
+		}
+		
+		if(timeInGame % 1000 == 0) {
+			int randx = 500 + rand.nextInt(500);
+			DiamondFaction diamond = new DiamondFaction(1170, 320, "large");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			diamonds.add(diamond);
+			diamond.getVector(735, 720);
+
+		}
+		
+		if(timeInGame % 100 == 0) {
+			int randx = 500 + rand.nextInt(500);
+			TriangleFaction triangle = new TriangleFaction(635, 75, "small");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			triangles.add(triangle);
+			triangle.getVector(735, 720);
+
+		}
+		
+		if(timeInGame % 500 == 0) {
+			int randx = 500 + rand.nextInt(500);
+			TriangleFaction triangle = new TriangleFaction(635, 75, "medium");
+//			CircleFaction circle = new CircleFaction(150, 360, "small");
+			triangles.add(triangle);
+			triangle.getVector(735, 720);
 
 		}
 		
@@ -327,6 +381,58 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
         	}
         }
+        
+        for (int i = 0; i < triangles.size(); i++) {
+        	Shapes shapeOne = triangles.get(i);
+        	for (int j = 0; j < squares.size(); j++) {
+//        		if (i == j) {
+//        			continue;
+//        		}
+        		Shapes shapeTwo = squares.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+    		    	if(shapeOne.getHeight() > shapeTwo.getHeight()) {
+    		    		squares.remove(shapeTwo);
+    		    	}
+    		    	else if (shapeOne.getHeight() < shapeTwo.getHeight()){
+    		    		triangles.remove(shapeOne);
+    		    	}
+    		    	else {
+    		    		shapeOne.setDistance(0);
+    		    	}
+
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
+        
+        for (int i = 0; i < diamonds.size(); i++) {
+        	Shapes shapeOne = diamonds.get(i);
+        	for (int j = 0; j < squares.size(); j++) {
+//        		if (i == j) {
+//        			continue;
+//        		}
+        		Shapes shapeTwo = squares.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+    		    	if(shapeOne.getHeight() > shapeTwo.getHeight()) {
+    		    		squares.remove(shapeTwo);
+    		    	}
+    		    	else if (shapeOne.getHeight() < shapeTwo.getHeight()){
+    		    		circles.remove(shapeOne);
+    		    	}
+    		    	else {
+    		    		shapeOne.setDistance(0);
+    		    	}
+
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
 
         for (int i = 0; i < squares.size(); i++) {
         	Shapes shapeOne = squares.get(i);
@@ -358,7 +464,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         		Shapes shapeTwo = circles.get(j);
         		if (shapeOne.intersects(shapeTwo)) {
 //    		    	System.out.println("Intersecting");
-        			System.out.println("Collision will happen go back!");
+//        			System.out.println("Collision will happen go back!");
         			if(shapeTwo.getDirection() == "First Quadrant") {
 
         				if(shapeTwo.getSize() == "small") {
@@ -374,7 +480,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         			}
 
         			else if(shapeTwo.getDirection() == "Second Quadrant") {
-        				System.out.println("Collision will happen go back!");
+//        				System.out.println("Collision will happen go back!");
         				if(shapeTwo.getSize() == "small") {
         					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
         				}
@@ -386,7 +492,145 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         				}
         			}
         			else if(shapeTwo.getDirection() == "Third Quadrant") {
-        				System.out.println("Collision will happen go back!");
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Fourth Quadrant") {
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+//    		    	shapeOne.setDistance(0);
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
+        
+        for (int i = 0; i < triangles.size(); i++) {
+        	Random random = new Random();
+        	Shapes shapeOne = triangles.get(i);
+        	for (int j = 0; j < squares.size(); j++) {
+        		if (i == j) {
+        			continue;
+        		}
+        		Shapes shapeTwo = squares.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+//    		    	System.out.println("Intersecting");
+//        			System.out.println("Collision will happen go back!");
+        			if(shapeTwo.getDirection() == "First Quadrant") {
+
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+
+        			}
+
+        			else if(shapeTwo.getDirection() == "Second Quadrant") {
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Third Quadrant") {
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Fourth Quadrant") {
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+//    		    	shapeOne.setDistance(0);
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
+        
+        for (int i = 0; i < squares.size(); i++) {
+        	Random random = new Random();
+        	Shapes shapeOne = squares.get(i);
+        	for (int j = 0; j < triangles.size(); j++) {
+        		if (i == j) {
+        			continue;
+        		}
+        		Shapes shapeTwo = triangles.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+//    		    	System.out.println("Intersecting");
+//        			System.out.println("Collision will happen go back!");
+        			if(shapeTwo.getDirection() == "First Quadrant") {
+
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+
+        			}
+
+        			else if(shapeTwo.getDirection() == "Second Quadrant") {
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Third Quadrant") {
+//        				System.out.println("Collision will happen go back!");
         				if(shapeTwo.getSize() == "small") {
         					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
         				}
@@ -460,22 +704,49 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         		}
         	}
         }
-
-
-
-		if (myCircle.health <= 0) {
-            // Game over screen logic
-            int option = JOptionPane.showOptionDialog(this, "YOU WIN!", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Close"}, "Close");
-            if (option == JOptionPane.OK_OPTION) {
-                // Additional actions after the game over screen is closed
-                // Close the game
-                System.exit(0);
-            }
+        
+        for (int i = 0; i < diamonds.size(); i++) {
+        	Shapes shapeOne = diamonds.get(i);
+        	if(mySquare.intersects(shapeOne)) {
+        		diamonds.remove(shapeOne);
+        		if (shapeOne.getSize() == "small") {
+        			mySquare.health -= 10;
+        		} else if (shapeOne.getSize() == "medium") {
+        			mySquare.health -= 15;
+        		} else if (shapeOne.getSize() == "large") {
+        			mySquare.health -= 20;
+        		}
+        	}
         }
+        
+        for (int i = 0; i < triangles.size(); i++) {
+        	Shapes shapeOne = triangles.get(i);
+        	if(mySquare.intersects(shapeOne)) {
+        		triangles.remove(shapeOne);
+        		if (shapeOne.getSize() == "small") {
+        			mySquare.health -= 10;
+        		} else if (shapeOne.getSize() == "medium") {
+        			mySquare.health -= 15;
+        		} else if (shapeOne.getSize() == "large") {
+        			mySquare.health -= 20;
+        		}
+        	}
+        }
+
+
+//		if (myCircle.health <= 0) {
+//            // Game over screen logic
+//            int option = JOptionPane.showOptionDialog(this, "YOU WIN!", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Close"}, "Close");
+//            if (option == JOptionPane.OK_OPTION) {
+//                // Additional actions after the game over screen is closed
+//                // Close the game
+//                System.exit(0);
+//            }
+//        }
 
 		if (mySquare.health <= 0) {
             // Game over screen logic
-            int option = JOptionPane.showOptionDialog(this, "YOU WIN!", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Close"}, "Close");
+            int option = JOptionPane.showOptionDialog(this, "YOU LOSE!", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Close"}, "Close");
             if (option == JOptionPane.OK_OPTION) {
                 // Additional actions after the game over screen is closed
                 // Close the game

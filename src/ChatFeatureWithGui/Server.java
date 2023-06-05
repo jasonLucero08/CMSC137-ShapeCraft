@@ -33,7 +33,7 @@ public class Server {
 					
 					Thread thread = new Thread(clientHandler);
 					thread.start();
-					startSendingUpdates(socket);
+//					startSendingUpdates(socket);
 					
 				}
 				
@@ -45,29 +45,29 @@ public class Server {
 		}
 	}
 	
-	 public void startSendingUpdates(Socket socket) {
-		 Thread sendingThread = new Thread(() -> {
-	        try {
-	            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-
-	            while (running) {
-	                // Send the serialized Shape object to the client
-	                shape.setX(shape.getX() + 1);
-	                shape.setY(shape.getY() + 1);
-	                System.out.println(shape.x + " " + shape.y);
-	                objectOutputStream.writeObject(shape);
-	                objectOutputStream.flush();
-
-	                // Delay between updates (adjust as needed)
-	                Thread.sleep(1000);
-	            }
-	        } catch (IOException | InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	    });
-		sendingThread.start();
-    }
-	 
+//	 public void startSendingUpdates(Socket socket) {
+//		 Thread sendingThread = new Thread(() -> {
+//	        try {
+//	            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+//
+//	            while (running) {
+//	                // Send the serialized Shape object to the client
+////	                shape.setX(shape.getX() + 1);
+////	                shape.setY(shape.getY() + 1);
+////	                System.out.println(shape.x + " " + shape.y);
+////	                objectOutputStream.writeObject(shape);
+////	                objectOutputStream.flush();
+//
+//	                // Delay between updates (adjust as needed)
+//	                Thread.sleep(1000);
+//	            }
+//	        } catch (IOException | InterruptedException e) {
+//	            e.printStackTrace();
+//	        }
+//	    });
+//		sendingThread.start();
+//    }
+//	 
 	
 
 	public void closeServerSocket() {
@@ -85,7 +85,7 @@ public class Server {
 	}
 
 	public static void main(String[] args) throws IOException {
-		ServerSocket serverSocket = new ServerSocket(1000);
+		ServerSocket serverSocket = new ServerSocket(1234);
 		Server server = new Server(serverSocket);
 		server.startServer();
 

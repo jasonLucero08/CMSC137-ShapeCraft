@@ -173,7 +173,7 @@ public class ClientStart {
             
 //            System.out.println("Enter your username for the group chat: ");
             String username = this.windowTitle;
-            Socket socket = new Socket("localhost", 1000);
+            Socket socket = new Socket("localhost", 1234);
             Client client = new Client(socket, username);
             client.listenForMessage();
             client.sendMessage();
