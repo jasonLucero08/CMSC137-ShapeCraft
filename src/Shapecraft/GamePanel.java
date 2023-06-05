@@ -139,14 +139,14 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		 int numSmall = 0;
 		 int numMedium = 0;
 		 int numLarge = 0;
-	
+
 		 if (i == 0) {
 			 for (int j = 0; j < squares.size(); j++) {
 				 if (squares.get(j).getSize() == "small") {
 					 numSmall++;
 				 }
 			 }
-	
+
 			 if (numSmall >= 1) {
 				 return false;
 			 } else {
@@ -158,7 +158,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 					 numMedium++;
 				 }
 			 }
-	
+
 			 if (numMedium >= 3) {
 				 return false;
 			 } else {
@@ -170,7 +170,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 					 numLarge++;
 				 }
 			 }
-	
+
 			 if (numLarge >= 5) {
 				 return false;
 			 } else {
@@ -240,7 +240,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 //			System.out.println("You must move!");
 		myCircle.move();
 		mySquare.move();
-		
+
 		if(timeInGame % 100 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			CircleFaction circle = new CircleFaction(85, 320, "small");
@@ -249,7 +249,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			circle.getVector(735, 670);
 
 		}
-		
+
 		if(timeInGame % 500 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			CircleFaction circle = new CircleFaction(85, 320, "medium");
@@ -258,7 +258,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			circle.getVector(735, 670);
 
 		}
-		
+
 		if(timeInGame % 1000 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			CircleFaction circle = new CircleFaction(85, 320, "large");
@@ -267,7 +267,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			circle.getVector(735, 670);
 
 		}
-		
+
 		if(timeInGame % 100 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			DiamondFaction diamond = new DiamondFaction(1170, 320, "small");
@@ -276,7 +276,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			diamond.getVector(735, 720);
 
 		}
-		
+
 		if(timeInGame % 500 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			DiamondFaction diamond = new DiamondFaction(1170, 320, "medium");
@@ -285,7 +285,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			diamond.getVector(735, 720);
 
 		}
-		
+
 		if(timeInGame % 1000 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			DiamondFaction diamond = new DiamondFaction(1170, 320, "large");
@@ -294,7 +294,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			diamond.getVector(735, 720);
 
 		}
-		
+
 		if(timeInGame % 100 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			TriangleFaction triangle = new TriangleFaction(635, 75, "small");
@@ -303,7 +303,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			triangle.getVector(735, 720);
 
 		}
-		
+
 		if(timeInGame % 500 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			TriangleFaction triangle = new TriangleFaction(635, 75, "medium");
@@ -312,7 +312,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			triangle.getVector(735, 720);
 
 		}
-		
+
 		if(timeInGame % 1000 == 0) {
 			int randx = 500 + rand.nextInt(500);
 			TriangleFaction triangle = new TriangleFaction(635, 75, "large");
@@ -321,12 +321,12 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 			triangle.getVector(735, 720);
 
 		}
-		
+
 		if(countdownTimer.timeRemaining % 10000 != 0) {
 			timeInGame++;
 			System.out.println(timeInGame);
 		}
-		
+
 //		test.move();
 		for (int i = 0; i < circles.size(); i++) {
 		    CircleFaction circle = circles.get(i);
@@ -339,13 +339,13 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
 		    // Do something with car object
 		    square.move();
 		}
-		
+
 		for (int i = 0; i < triangles.size(); i++) {
 		    TriangleFaction triangle = triangles.get(i);
 		    // Do something with car object
 		    triangle.move();
 		}
-		
+
 		for (int i = 0; i < diamonds.size(); i++) {
 		    DiamondFaction diamond = diamonds.get(i);
 		    // Do something with car object
@@ -419,6 +419,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    		circles.remove(shapeOne);
     		    	}
     		    	else {
+    		    		circles.remove(shapeOne);
+    		    		squares.remove(shapeTwo);
     		    		shapeOne.setDistance(0);
     		    	}
 
@@ -429,7 +431,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
         	}
         }
-        
+
         for (int i = 0; i < triangles.size(); i++) {
         	Shapes shapeOne = triangles.get(i);
         	for (int j = 0; j < squares.size(); j++) {
@@ -445,6 +447,8 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    		triangles.remove(shapeOne);
     		    	}
     		    	else {
+    		    		triangles.remove(shapeOne);
+    		    		squares.remove(shapeTwo);
     		    		shapeOne.setDistance(0);
     		    	}
 
@@ -455,7 +459,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
         	}
         }
-        
+
         for (int i = 0; i < diamonds.size(); i++) {
         	Shapes shapeOne = diamonds.get(i);
         	for (int j = 0; j < squares.size(); j++) {
@@ -468,9 +472,11 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    		squares.remove(shapeTwo);
     		    	}
     		    	else if (shapeOne.getHeight() < shapeTwo.getHeight()){
-    		    		circles.remove(shapeOne);
+    		    		diamonds.remove(shapeOne);
     		    	}
     		    	else {
+    		    		diamonds.remove(shapeOne);
+    		    		squares.remove(shapeTwo);
     		    		shapeOne.setDistance(0);
     		    	}
 
@@ -500,16 +506,52 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         	}
         }
 
+        for (int i = 0; i < squares.size(); i++) {
+        	Shapes shapeOne = squares.get(i);
+        	for (int j = 0; j < triangles.size(); j++) {
+//        		if (i == j) {
+//        			continue;
+//        		}
+        		Shapes shapeTwo = triangles.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+//    		    	System.out.println("Intersecting");
+    		    	shapeOne.setDistance(0);
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
+
+        for (int i = 0; i < squares.size(); i++) {
+        	Shapes shapeOne = squares.get(i);
+        	for (int j = 0; j < diamonds.size(); j++) {
+//        		if (i == j) {
+//        			continue;
+//        		}
+        		Shapes shapeTwo = diamonds.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+//    		    	System.out.println("Intersecting");
+    		    	shapeOne.setDistance(0);
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
+
 
 
         for (int i = 0; i < circles.size(); i++) {
         	Random random = new Random();
         	Shapes shapeOne = circles.get(i);
-        	for (int j = 0; j < circles.size(); j++) {
+        	for (int j = 0; j < squares.size(); j++) {
         		if (i == j) {
         			continue;
         		}
-        		Shapes shapeTwo = circles.get(j);
+        		Shapes shapeTwo = squares.get(j);
         		if (shapeOne.intersects(shapeTwo)) {
 //    		    	System.out.println("Intersecting");
 //        			System.out.println("Collision will happen go back!");
@@ -570,7 +612,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
         	}
         }
-        
+
         for (int i = 0; i < triangles.size(); i++) {
         	Random random = new Random();
         	Shapes shapeOne = triangles.get(i);
@@ -639,7 +681,144 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
     		    }
         	}
         }
-        
+
+        for (int i = 0; i < diamonds.size(); i++) {
+        	Random random = new Random();
+        	Shapes shapeOne = diamonds.get(i);
+        	for (int j = 0; j < squares.size(); j++) {
+        		if (i == j) {
+        			continue;
+        		}
+        		Shapes shapeTwo = squares.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+//    		    	System.out.println("Intersecting");
+//        			System.out.println("Collision will happen go back!");
+        			if(shapeTwo.getDirection() == "First Quadrant") {
+
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+
+        			}
+
+        			else if(shapeTwo.getDirection() == "Second Quadrant") {
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Third Quadrant") {
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Fourth Quadrant") {
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+//    		    	shapeOne.setDistance(0);
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
+        for (int i = 0; i < squares.size(); i++) {
+        	Random random = new Random();
+        	Shapes shapeOne = squares.get(i);
+        	for (int j = 0; j < diamonds.size(); j++) {
+        		if (i == j) {
+        			continue;
+        		}
+        		Shapes shapeTwo = diamonds.get(j);
+        		if (shapeOne.intersects(shapeTwo)) {
+//    		    	System.out.println("Intersecting");
+//        			System.out.println("Collision will happen go back!");
+        			if(shapeTwo.getDirection() == "First Quadrant") {
+
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+
+        			}
+
+        			else if(shapeTwo.getDirection() == "Second Quadrant") {
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() + random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() + random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() + random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Third Quadrant") {
+//        				System.out.println("Collision will happen go back!");
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() + random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+        			else if(shapeTwo.getDirection() == "Fourth Quadrant") {
+        				if(shapeTwo.getSize() == "small") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(6), shapeTwo.getY() - random.nextInt(6));
+        				}
+        				else if(shapeTwo.getSize() == "medium") {
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(3), shapeTwo.getY() - random.nextInt(3));
+        				}
+        				else if(shapeTwo.getSize() == "large"){
+        					shapeTwo.getVector(shapeTwo.getX() - random.nextInt(2), shapeTwo.getY() - random.nextInt(2));
+        				}
+        			}
+//    		    	shapeOne.setDistance(0);
+    		    }
+    		    else {
+//    		    	System.out.println("Not intersecting");
+
+    		    }
+        	}
+        }
+
         for (int i = 0; i < squares.size(); i++) {
         	Random random = new Random();
         	Shapes shapeOne = squares.get(i);
@@ -752,7 +931,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         		}
         	}
         }
-        
+
         for (int i = 0; i < diamonds.size(); i++) {
         	Shapes shapeOne = diamonds.get(i);
         	if(mySquare.intersects(shapeOne)) {
@@ -766,7 +945,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
         		}
         	}
         }
-        
+
         for (int i = 0; i < triangles.size(); i++) {
         	Shapes shapeOne = triangles.get(i);
         	if(mySquare.intersects(shapeOne)) {
@@ -811,7 +990,7 @@ public class GamePanel extends JPanel implements ActionListener, MouseListener, 
                 System.exit(0);
             }
         }
-		
+
 		if (myTriangle.health <= 0) {
             // Game over screen logic
             int option = JOptionPane.showOptionDialog(this, "YOU WIN!", "Game Over", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Close"}, "Close");
