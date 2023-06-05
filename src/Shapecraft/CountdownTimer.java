@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class CountdownTimer extends JPanel implements ActionListener {
-    private static final long serialVersionUID = 1L;
+	protected static final long serialVersionUID = 1L;
 
-    private int timeRemaining = 10; // Initial time in seconds
-    private Timer timer;
+    protected int timeRemaining = 0; // Initial time in seconds
+    protected Timer timer;
 
     public CountdownTimer() {
         timer = new Timer(1000, this);
@@ -26,10 +26,10 @@ public class CountdownTimer extends JPanel implements ActionListener {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setBackground(Color.BLACK);
+        setBackground(Color.MAGENTA);
         setForeground(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 48)); // Increase the font size to 48
-        g.drawString("Time Remaining: " + timeRemaining, 100, 50);
+        g.drawString("Current Game Time: " + timeRemaining, 100, 50);
 
         if (timeRemaining <= 0) {
             timer.stop();
@@ -45,12 +45,12 @@ public class CountdownTimer extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        timeRemaining--;
+        timeRemaining++;
         repaint();
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Countdown Timer");
+        JFrame frame = new JFrame("Game Tick");
 
         // Create a parent container with a null layout
         JPanel parentContainer = new JPanel(null);
